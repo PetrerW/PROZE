@@ -1,8 +1,11 @@
 import java.io.File;
 import java.util.ArrayList;
-
+/*
+ * @author PetrerW
+ * @version 12.04.2017
+ */
 public class ColorData {
-	ArrayList<File> colorFiles;
+	public static ArrayList<File> colorFiles;
 	ColorData(){
 		colorFiles = new ArrayList<>();
 		colorFiles.add(new File("Graphics/Yellow.png"));
