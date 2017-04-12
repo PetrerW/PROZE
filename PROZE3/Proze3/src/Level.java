@@ -13,31 +13,35 @@ public class Level {
 		//String[] colors = {"Yellow", "Blue", "Green", "Purple", "Red", "Multicolor", "Orange"};
 		Random colorChooser; 
 		//File[] colorFiles = {new File("Graphics/Yellow.png"), new File("Graphics/Blue.png"), new File("Graphics/Green.png"), new File("Graphics/Purple.png"), new File("Graphics/Red.png"), new File("Graphics/Multicolor.png"), new File("Graphics/Orange.png")};
-		ColorData colorData;
+		public static ColorData colorData;
 		//A variable that says how much colors will be in the app
 		int maxColor;
 		private String howHard;
 		
+		static{
+			Level.colorData = new ColorData();
+		}
+		
 		Level(){
-			colorData = new ColorData();
+			//colorData = new ColorData();
 			colorChooser = new Random();
 			//Array of colors will reach only maxColor values
 			maxColor = 6;
 			determineHowHard(maxColor);
 		}
 		Level(int maxColor){
-			colorData = new ColorData();
+			//colorData = new ColorData();
 			colorChooser = new Random();
 			determineHowHard(maxColor);
 			this.maxColor = maxColor;
 		}
 		Level(String howHigh){
-			colorData = new ColorData();
+			//colorData = new ColorData();
 			colorChooser = new Random();
 			determineMaxColor(howHigh);
 			this.howHard = howHigh;
 		}
-		//Function that determinates how much balls will be shown in the game
+		//Function that determines how much balls will be shown in the game
 		private void determineMaxColor(String howHard){
 			if(howHard.contains("Hard"))
 				//6 different colors

@@ -44,25 +44,14 @@ public class Bubble{
 	position = 0;
 	}
 	
+	/*
+	 * Assigns a number to every color.
+	 * Makes organization of Color list easier.
+	 */
 	Bubble(int color){
 		this.colorInt = color;
-		switch(colorInt)
-		{
-			case 1: this.color="Yellow";
-			break;
-			case 2: this.color="Blue";
-			break;
-			case 3: this.color="Green";
-			break;
-			case 4 : this.color="Red";
-			break;
-			case 5: this.color="Purple";
-			break;
-			case 6: this.color="Orange";
-			break;
-			default:
-				break;
-		}
+		//determine color as String
+		this.color = Bubble.determineColor(this.colorInt);
 		position = 0;
 		String path = "Graphics/" + this.color + ".png";
 		try {
@@ -88,6 +77,9 @@ public class Bubble{
 		}
 	}
 	
+	/*
+	 * Bubble constructor that gets an already existing file as argument
+	 */
 	Bubble(File f){
 		StringBuffer sb = new StringBuffer();
 		sb.append(f.getName());
@@ -108,7 +100,64 @@ public class Bubble{
 		}
 	}
 	
+	/*
+	 * Bubble constructor that gets an already existing image as argument
+	 */
 	Bubble (BufferedImage img){
 		this.img = img;
+	}
+	
+	/*
+	 * determine color as integer when having a String
+	 * example. "Red" -> 4
+	 */
+	public static int determineColorInt(String color){
+		int colorInt;
+		switch(color)
+		{
+			case "Yellow": colorInt = 1;
+			break;
+			case "Blue": colorInt = 2;
+			break;
+			case "Green": colorInt = 3;
+			break;
+			case "Red" : colorInt = 4;
+			break;
+			case "Purple": colorInt = 5;
+			break;
+			case "Orange": colorInt = 6;
+			break;
+			default:
+				colorInt = 1;
+				break;
+		}
+		return colorInt;
+	}
+	
+	/*
+	 * determine Color as String, having already an int
+	 * example: 4 -> "Red"
+	 */
+	public static String determineColor(int colorInt){
+		String color;
+		switch(colorInt)
+		{
+			case 1: color="Yellow";
+			break;
+			case 2: color="Blue";
+			break;
+			case 3: color="Green";
+			break;
+			case 4 : color="Red";
+			break;
+			case 5: color="Purple";
+			break;
+			case 6: color="Orange";
+			break;
+			default:
+				color = "Yellow";
+				break;
+		}
+		return color;
 	}
 }

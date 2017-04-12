@@ -83,29 +83,27 @@ public class GameInstance {
    		  BubbleList.removeAll(BubbleList);
    	  else
    		  BubbleList = new ArrayList<Bubble>();
-   	  
-
 
 		 try {
 
 			 FileInputStream fstream = new FileInputStream(f);
 			 BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
-
 			String strLine;
 			 int kindBubble;
-//Read File Line By Line
-			 while ((strLine = br.readLine()) != ("")) {
-
-			 	kindBubble=Integer.parseInt(strLine);
-
+			 //Read File Line By Line
+			 while ((strLine = br.readLine()) != null) {
+				//Determining position on the colorList
+				kindBubble = Bubble.determineColorInt(strLine);
+				
+			 	//Adding new Bubble to the list with appropriate Color
 				BubbleList.add(new Bubble(imageList.get(kindBubble-1)));
 			 }
-
 			 br.close();
 
 		 } catch (Exception e) {//Catch exception if any
 			 System.err.println("Error: " + e.getMessage());
+			 System.err.println("GameInstance.readFromFile(String f)");
 		 }
 		 return BubbleList;
      }

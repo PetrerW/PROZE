@@ -6,7 +6,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 /**
- * Created by Daniel on 2017-04-02.
+ * @author Daniel
+ * @version 2017-04-02.
  */
 public class FirstWindow extends JFrame implements ActionListener,ItemListener {
     JButton OK,Anuluj;
@@ -20,12 +21,12 @@ public class FirstWindow extends JFrame implements ActionListener,ItemListener {
 
 
        languageChoice= new Choice();
-      languageChoice.addItemListener(this);
+       languageChoice.addItemListener(this);
        textt=new JLabel(Config.languageList[2]);
        OK=new JButton (Config.standardButton[0]);
        Anuluj= new JButton(Config.standardButton[1]);
-      OK.addActionListener(this);
-      Anuluj.addActionListener(this);
+       OK.addActionListener(this);
+       Anuluj.addActionListener(this);
         languageChoice.add(Config.languageList[0]);
         languageChoice.add(Config.languageList[1]);
         add(textt);

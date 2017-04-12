@@ -31,7 +31,7 @@ private GameInstance Game;
             Game = new GameInstance();
             
             //File mapFile = new File("MapConfig.txt");
-            Game.writeToFile(BubbleList);
+            //Game.writeToFile(BubbleList);
             File levelFile = new File("LevelConfig.txt");
             Game.getLevel().writeToFile();
             //Game.getLevel().readFromFile(levelFile);
@@ -56,7 +56,7 @@ private GameInstance Game;
   		 */
   		BubbleList = new ArrayList<>();
   		BubbleList=Game.readFromFile(Config.configurationMap);
-  		BubbleList.ensureCapacity(250);
+  		//BubbleList.ensureCapacity(250);
   		int maxColor = Game.getLevel().maxColor;
 
 
