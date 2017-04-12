@@ -1,0 +1,17 @@
+Opcje
+Nowa gra
+Wczytaj gre
+Zapisz
+Ranking
+Poziom trudnosci
+Jezyk 
+Wyjscie
+Pomoc
+Start
+Pauza
+Ranking
+Okno wyboru
+Wybierz jezyk
+Liczba punktow:
+Nastepna
+Poziom

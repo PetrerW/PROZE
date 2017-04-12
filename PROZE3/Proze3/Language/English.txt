@@ -1,0 +1,17 @@
+Option
+New game
+Load the game
+Save
+Ranking
+Difficulty level
+Language
+Exit
+Help
+Start
+Pause
+Ranking
+Choose window
+Choose language
+Scores
+Next
+Level

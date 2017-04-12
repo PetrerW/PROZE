@@ -1,0 +1,10 @@
+#Ustawienia programu
+#Sun Apr 09 20:27:46 CEST 2017
+Label\ size2=40
+Label\ size1=150
+Label\ font2=11
+Button\ height=25
+Label\ font1=12
+Button\ width=75
+Choice\ width=150
+Choice\ height=30
