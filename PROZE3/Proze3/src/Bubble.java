@@ -98,6 +98,26 @@ public class Bubble{
 			System.out.println("Failed to read file!");
 			e.printStackTrace();
 		}
+	}	
+	
+	Bubble(File f, StringBuffer sb){
+		//StringBuffer sb = new StringBuffer();
+		sb.append(f.getName());
+		if (sb.toString().contains("Graphics/")) {
+		    sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/")+ 9/*Length of "Graphics/" */);
+		}
+		if (sb.toString().contains(".png")) {
+		    sb.delete(sb.indexOf(".png"), sb.indexOf(".png")+ 4/*Length of ".png" */);
+		}
+		this.color = sb.toString();
+		position = 0;
+		try{
+			img = ImageIO.read(f);
+		}
+		catch (IOException e){
+			System.out.println("Failed to read file!");
+			e.printStackTrace();
+		}
 	}
 	
 	/*

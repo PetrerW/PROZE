@@ -53,12 +53,11 @@ public class FirstWindow extends JFrame implements ActionListener,ItemListener {
             GameWindow gameWindow=new GameWindow();
             gameWindow.setVisible(true);
             gameWindow.pack();
-
-
         }
         else if(source==Anuluj) {
             dispose();
         }}
+    
     public void itemStateChanged(ItemEvent ie)
 
     {

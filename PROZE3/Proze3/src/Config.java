@@ -29,16 +29,12 @@ public class Config {
     private static Properties settings;
 
     static {
-
-readConfiguration();
+    	
+        readConfiguration();
         sizeChoice = tmp("Choice width","Choice height");
         sizeButton = tmp("Button width","Button height");
         fontLabel = tmp("Label font1","Label font2");
         sizeLabel = tmp("Label size1","Label size2");
-
-
-
-
 
     }
 

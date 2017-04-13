@@ -71,6 +71,29 @@ public class GameInstance {
 				}
 		 	}
 	    }
+	 
+	 public void writeToFileString(ArrayList<String> ColorList)
+	 {
+		 if(ColorList != null)
+		 {
+			 try {
+					PrintWriter writer = new PrintWriter("MapConfig.txt", "UTF-8");
+					for(String line : ColorList){
+						writer.println(line);
+					}
+					writer.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 
+				 
+			 
+		 }
+	 }
 
 
 
