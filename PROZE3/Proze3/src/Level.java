@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Level {
 		//String[] colors = {"Yellow", "Blue", "Green", "Purple", "Red", "Multicolor", "Orange"};
-		Random colorChooser; 
+		public static Random colorChooser; 
 		//File[] colorFiles = {new File("Graphics/Yellow.png"), new File("Graphics/Blue.png"), new File("Graphics/Green.png"), new File("Graphics/Purple.png"), new File("Graphics/Red.png"), new File("Graphics/Multicolor.png"), new File("Graphics/Orange.png")};
 		public static ColorData colorData;
 		//A variable that says how much colors will be in the app
@@ -26,7 +26,7 @@ public class Level {
 			//colorData = new ColorData();
 			colorChooser = new Random();
 			//Array of colors will reach only maxColor values
-			maxColor = 6;
+			maxColor = 5;
 			determineHowHard(maxColor);
 		}
 		Level(int maxColor){
@@ -45,22 +45,23 @@ public class Level {
 		private void determineMaxColor(String howHard){
 			if(howHard.contains("Hard"))
 				//6 different colors
-				maxColor = 6;
-			else if(howHard.contains("Medium"))
 				maxColor = 5;
+			else if(howHard.contains("Medium"))
+				//5 different colors (from 0 to 4)
+				maxColor = 4;
 			else if(howHard.contains("Easy"))
-				maxColor = 4;
+				maxColor = 3;
 			else
-				maxColor = 4;
+				maxColor = 3;
 		}
 		//unused
 		private void determineHowHard(int maxColor){
-			if(maxColor ==6)
+			if(maxColor ==5)
 				//6 different colors
 				howHard = "Hard";
-			else if(maxColor == 5)
+			else if(maxColor == 4)
 				howHard = "Meduim";
-			else if(maxColor ==4)
+			else if(maxColor ==3)
 				howHard = "Easy";
 			else
 				howHard = "Easy";

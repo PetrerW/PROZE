@@ -50,13 +50,45 @@ private GameInstance Game;
         return new Dimension(600, 600);
     }
 
+    /*
+     * Adding Bubbles to the game field at random.
+     * Useful with creating a new game
+     */
+    public void createRandomBubbleList (){
+    	BubbleList = new ArrayList<Bubble>();
+    	int maxColor = Game.getLevel().maxColor;
+    	StringBuffer sb = new StringBuffer();
+    	//Game.getLevel().colorData.colorFiles;
+    	ArrayList<String> Colors = new ArrayList<String>();
+    	for(int i = 0; i<15; i++){
+    		try{
+    			//Random position on the color list (from 0 to 5);
+    			int index = Level.colorChooser.nextInt(maxColor);
+    			System.out.println(index);
+    			//A File object from the coloFiles list; randomized
+    			//File file = Game.getLevel().colorData.colorFiles.get(index);
+    			//Adding a new Bubble to the list
+    			//BubbleList.add(new Bubble(file,sb));
+    			//Adding just a color name to the list
+    			String line = Game.getLevel().colorData.colorArray.get(index);
+    			System.out.println(line);
+    			Colors.add(line);
+    			Game.writeToFileString(Colors);
+    			BubbleList = Game.readFromFile(Config.configurationMap);
+    		}
+    		catch (Exception e){
+    			System.err.println("GameSpace.createRandomBubbleList() - unable to add Bubble to the list!");
+    		}
+    	}
+    }
+    
     public void createBubbleList(){
       	/*
-  		 * Adding Bubbles to game field at random
+  		 * Adding Bubbles to game field
   		 */
   		BubbleList = new ArrayList<>();
-  		BubbleList=Game.readFromFile(Config.configurationMap);
-  		//BubbleList.ensureCapacity(250);
+  		//BubbleList=Game.readFromFile(Config.configurationMap);
+  		createRandomBubbleList();
   		int maxColor = Game.getLevel().maxColor;
 
 
