@@ -18,7 +18,8 @@ public class FirstWindow extends JFrame implements ActionListener,ItemListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500,300);
         setLayout(null);
-
+        //Show FirstWindow in the middle of the screen
+        this.setLocationRelativeTo(null);
 
        languageChoice= new Choice();
        languageChoice.addItemListener(this);

@@ -9,7 +9,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 /*
  * @author PetrerW
- * @description:
  * 	Class to handle Bubbles on game screen and their position in a list
  */
 public class Bubble{

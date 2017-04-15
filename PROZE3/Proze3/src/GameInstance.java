@@ -26,13 +26,11 @@ public class GameInstance {
 	 {
 	 	String color;
 	 	int position;
-		  imageList= new ArrayList<BufferedImage>();
-		  BufferedImage img;
-		 String[]fileName={"Graphics/Yellow.png","Graphics/Blue.png","Graphics/Green.png","Graphics/Red.png", "Graphics/Purple.png",
-				 "Graphics/Orange.png"};
+		imageList= new ArrayList<BufferedImage>();
+		BufferedImage img;
 
-		 StringBuffer sb = new StringBuffer();
-		 for(String f :fileName ) {
+		StringBuffer sb = new StringBuffer();
+		 for(String f : Level.colorData.fileName ) {
 			 sb.append(f);
 			 if (sb.toString().contains("Graphics/")) {
 				 sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/") + 9/*Length of "Graphics/" */);
@@ -74,6 +72,11 @@ public class GameInstance {
 	 
 	 public void writeToFileString(ArrayList<String> ColorList)
 	 {
+		 //If the directory doesn't exist...
+		 if (!new File("/Graphics").exists())
+			 //...create one
+			 new File("/Graphics").mkdir();
+		 
 		 if(ColorList != null)
 		 {
 			 try {
@@ -138,4 +141,11 @@ public class GameInstance {
 	public void setLevel(Level level) {
 		this.level = level;
 	}
+	
+	/*
+	 * Change username of the GameInstance
+	 */
+		public void appendUsername(String username){
+			this.username = username;
+		}
 }

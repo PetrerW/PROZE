@@ -53,6 +53,7 @@ private GameInstance Game;
     /*
      * Adding Bubbles to the game field at random.
      * Useful with creating a new game
+     * Already saves a beginning bubble color configuration to the file
      */
     public void createRandomBubbleList (){
     	BubbleList = new ArrayList<Bubble>();
@@ -60,15 +61,11 @@ private GameInstance Game;
     	StringBuffer sb = new StringBuffer();
     	//Game.getLevel().colorData.colorFiles;
     	ArrayList<String> Colors = new ArrayList<String>();
-    	for(int i = 0; i<15; i++){
+    	for(int i = 0; i<150; i++){
     		try{
     			//Random position on the color list (from 0 to 5);
     			int index = Level.colorChooser.nextInt(maxColor);
     			System.out.println(index);
-    			//A File object from the coloFiles list; randomized
-    			//File file = Game.getLevel().colorData.colorFiles.get(index);
-    			//Adding a new Bubble to the list
-    			//BubbleList.add(new Bubble(file,sb));
     			//Adding just a color name to the list
     			String line = Game.getLevel().colorData.colorArray.get(index);
     			System.out.println(line);
@@ -87,25 +84,8 @@ private GameInstance Game;
   		 * Adding Bubbles to game field
   		 */
   		BubbleList = new ArrayList<>();
-  		//BubbleList=Game.readFromFile(Config.configurationMap);
-  		createRandomBubbleList();
+  		BubbleList=Game.readFromFile(Config.configurationMap);
   		int maxColor = Game.getLevel().maxColor;
-
-
-
-  	/*	for ()
-  		{
-  			//System.out.println(i + " " + index + " " + colors[index]);
-  			try{
-      			//BubbleList.add(new Bubble(Game.getLevel().colors[Game.getLevel().colorChooser.nextInt(6)]));
-  				BubbleList.add(new Bubble(Game.getLevel().colorData.colorFiles.get(Game.getLevel().colorChooser.nextInt(maxColor))));
-				//BubbleList.add(new Bubble());
-  			}
-  			catch(Exception e){
-  				System.out.println("Failed to add a Bubble to the BubbleList!");
-  			}
-  		}*/
-  		System.out.println(Game.getLevel().colorData.colorFiles.isEmpty());
     }
     
       public void paint (Graphics g)
@@ -122,15 +102,15 @@ private GameInstance Game;
           g.setColor(Color.gray);
           g.fillRect(0,0,(int)(size2.width*0.8),(int)(size2.height*0.9));
           
-          int side;
-          side = (int)(Math.sqrt(size2.height*0.8*size2.width*0.8));
-          /*if(size2.width<size2.height)
-      			side = (int)(size2.width*0.8);
-          else
-        	  side = (int)(size2.height*0.8);*/
+          int sidex;
+          int sidey;
+          //sidex = (int)(Math.sqrt(size2.height*0.8*size2.width*0.8));
+          sidex = (int)(size2.width*0.8);
+          sidey = (int)(size2.height*0.8);
           
       			int capacity = 15;
-      			int diameter = (int)(side/(capacity+0.5))+1;
+      			int diameterx = (int)(sidex/(capacity+0.5))+1;
+      			int diametery = (int)(sidey/(capacity+0.5))+1;
       			double x;
       			/*
       			 * Displaying every row moved by 1/2 diameter to right or left
@@ -139,18 +119,25 @@ private GameInstance Game;
       			{
       				//even are moved to left
       					if((i/capacity)%2 == 0 )
-      						x = (i%capacity)*diameter;
+      						x = (i%capacity)*diameterx;
       				//uneven moved to the right
       					else
-      						x = (i%capacity+0.5)*diameter;
-      				g.drawImage(BubbleList.get(i).img, (int)x, (int)(i/capacity)*diameter, diameter, diameter, null);
+      						x = (i%capacity+0.5)*diameterx;
+      				g.drawImage(BubbleList.get(i).img, (int)x, (int)(i/capacity)*diametery, diameterx, diametery, null);
       			}
       			//Setting a missle under the game field
-      			g.drawImage(Missle.img, (int)(side/2 - diameter/2), (int)(size2.height*0.92), diameter, diameter, null);
+      			g.drawImage(Missle.img, (int)(sidex/2 - diameterx/2), (int)(size2.height*0.92), diameterx, diametery, null);
       			//Drawing an arrow
-      			ShootArrow.setSize(diameter*5, diameter);
-      			g.drawImage(ShootArrow.img, (int)(side/2 - diameter/2), (int)(size2.height*0.92 - ShootArrow.getLength()*1.01), ShootArrow.getWidth(), ShootArrow.getLength(), null);
+      			ShootArrow.setSize(diametery*5, diameterx);
+      			g.drawImage(ShootArrow.img, (int)(sidex/2 - diameterx/2), (int)(size2.height*0.92 - ShootArrow.getLength()*1.01), ShootArrow.getWidth(), ShootArrow.getLength(), null);
       			//Drawing next bubble to shoot (NextMissle)
-      			g.drawImage(NextMissle.img, (int)(side/20), (int)(size2.height*0.92), diameter, diameter, null);
+      			g.drawImage(NextMissle.img, (int)(sidex/20), (int)(size2.height*0.92), diameterx, diametery, null);
+      }
+      
+      /*
+       * Set game instance
+       */
+      public void setGameInstance(GameInstance Game){
+    	  this.Game = Game;
       }
 }
