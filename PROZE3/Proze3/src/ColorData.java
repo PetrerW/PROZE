@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class ColorData {
 	public static ArrayList<File> colorFiles;
 	public static ArrayList<String> colorArray;
+	public static String[]fileName={
+			"Graphics/Yellow.png","Graphics/Blue.png","Graphics/Green.png","Graphics/Red.png", "Graphics/Purple.png",
+	 		"Graphics/Orange.png"};
 	ColorData(){
 		colorFiles = new ArrayList<>();
 		colorFiles.add(new File("Graphics/Yellow.png"));

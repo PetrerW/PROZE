@@ -2,7 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by Daniel on 2017-04-02.
+ * @author Daniel
+ * @version 2017-04-02.
  */
 public class TextPanel extends JPanel {
     private String text;

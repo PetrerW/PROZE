@@ -42,7 +42,7 @@ public class Level {
 			this.howHard = howHigh;
 		}
 		//Function that determines how much balls will be shown in the game
-		private void determineMaxColor(String howHard){
+		public void determineMaxColor(String howHard){
 			if(howHard.contains("Hard"))
 				//6 different colors
 				maxColor = 5;
@@ -55,7 +55,7 @@ public class Level {
 				maxColor = 3;
 		}
 		//unused
-		private void determineHowHard(int maxColor){
+		public void determineHowHard(int maxColor){
 			if(maxColor ==5)
 				//6 different colors
 				howHard = "Hard";
