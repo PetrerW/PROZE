@@ -1,5 +1,6 @@
 /**
- * Created by Daniel on 2017-03-07.
+ * @author Daniel, PetrerW
+ * @version 2017-04-15.
  */
 
 
@@ -18,57 +19,61 @@ public class GameWindow extends JFrame implements ActionListener {
 
     private JFrame languageWindow;
     private JMenuBar menubar;
-    private JMenu file, help;
-    private JMenuItem newGame, ranking,  end, save, language;
+    private JMenu file, help, view;
+    private JMenuItem newGame, ranking,  end, save, language, setDefaultView;
     //final private JToolBar toolbar;
     private JButton pause_start, endCurrentGame;
     private GameSpace space;
-
+    ViewPanel view_panel;
 
 
     public GameWindow()
     {
-
         super("Bubble-Hit");
-        //setSize(600,600);
+        setSize(600,600);
+        setMinimumSize(new Dimension(600,600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        ViewPanel view_panel=new ViewPanel();
-            menubar=new JMenuBar();
-            file=new JMenu(Config.packLanguage[0]);
-            help= new JMenu(Config.packLanguage[8]);
-            newGame=new JMenuItem(Config.packLanguage[1]);
+         view_panel=new ViewPanel();
+         space=getGameSpace();
+        menubar=new JMenuBar();
+        file=new JMenu(Config.packLanguage[0]);
+        help= new JMenu(Config.packLanguage[8]);
+        view = new JMenu("Widok");
 
-            save= new JMenuItem(Config.packLanguage[3]);
-            ranking=new JMenuItem(Config.packLanguage[4]);
+        //TODO: add its text to be read from Config data
+        setDefaultView = new JMenuItem("Ustaw pocz¹tkowy widok");
+        newGame=new JMenuItem(Config.packLanguage[1]);
 
-            language=new JMenuItem( Config.packLanguage[6]);
-            end=new JMenuItem(Config.packLanguage[7]);
+        save= new JMenuItem(Config.packLanguage[3]);
+        ranking=new JMenuItem(Config.packLanguage[4]);
 
-            newGame.addActionListener(this);
-            ranking.addActionListener(this);
-            language.addActionListener(this);
-            end.addActionListener(this);
+        language=new JMenuItem( Config.packLanguage[6]);
+        end=new JMenuItem(Config.packLanguage[7]);
 
-            file.add(newGame);
-            file.add(save);
-            file.add(ranking);
+        newGame.addActionListener(this);
+        ranking.addActionListener(this);
+        language.addActionListener(this);
+        end.addActionListener(this);
 
-//file.add(language);
-            file.addSeparator();
-            file.add(end);
+        file.add(newGame);
+        file.add(save);
+        file.add(ranking);
 
+        //file.add(language);
+        file.addSeparator();
+        file.add(end);
 
+        view.add(setDefaultView);
 
-menubar.add(file);
-menubar.add(help);
+        menubar.add(file);
+        menubar.add(help);
+        menubar.add(view);
 
-setJMenuBar(menubar);
-
+        setJMenuBar(menubar);
 
         add(BorderLayout.CENTER,view_panel);
-
 
     }
 
@@ -91,29 +96,19 @@ setJMenuBar(menubar);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-
             out.println(" ");
             out.println("cos");
 
-
-
-        } catch (IOException e) {
-
         }
-
-
+        catch (IOException e) { }
     }
 
 
     public static void main(String[] args) {
 
-
-
-
-
-FirstWindow raz=new FirstWindow();
-raz.setVisible(true);
-//raz.pack();
+        FirstWindow raz=new FirstWindow();
+        raz.setVisible(true);
+        //raz.pack();
 
     }
 
@@ -121,11 +116,10 @@ raz.setVisible(true);
         Object source = e.getSource();
 
         if(source==newGame) {
-
-
-
+            NewGameWindow nowaGra = new NewGameWindow(this);
+            nowaGra.setVisible(true);
         }
-      else  if (source == ranking) {
+        else  if (source == ranking) {
 
             String[] scores = Config.bestRanking();
             if (scores == null) {
@@ -135,15 +129,15 @@ raz.setVisible(true);
             } else {
                 String[] message = new String[10];
 
-               for(int i =0; i<10; i++) {
-if (scores[2*i]!= null)
-                    message[i] = (i + 1) + "."+fill(Integer.toString(i+1),3," " ) + scores[2 * i] + fill("", 25, " ") + "   "
-                            + scores[2 * i + 1];
+                for(int i =0; i<10; i++) {
+                    if (scores[2*i]!= null)
+                        message[i] = (i + 1) + "."+fill(Integer.toString(i+1),3," " ) + scores[2 * i] + fill("", 25, " ") + "   "
+                                + scores[2 * i + 1];
 
                 }
 
-                    JOptionPane.showMessageDialog(null, message,
-                            Config.packLanguage[11], JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, message,
+                        Config.packLanguage[11], JOptionPane.PLAIN_MESSAGE);
 
 
             }
@@ -158,8 +152,8 @@ if (scores[2*i]!= null)
             Choice languageChoice;
 
 
-languageWindow.setLayout(null);
-           // languageWindow.setBounds(100,100,600,300);
+            languageWindow.setLayout(null);
+            //languageWindow.setBounds(100,100,600,300);
 
             /*text=new JLabel(Config.packLanguage[13]);
             languageWindow.add(text);*/
@@ -169,7 +163,7 @@ languageWindow.setLayout(null);
             languageWindow.add(languageChoice);
             languageWindow.pack();
             languageWindow.setVisible(true);
-           // languageChoice.setBounds(200,100, 100,50);
+            // languageChoice.setBounds(200,100, 100,50);
 
 
         }
@@ -177,7 +171,19 @@ languageWindow.setLayout(null);
         {
             dispose();
         }
+        else if(source == setDefaultView){
+            //TODO: doesn't work at all
+            //Set default size
+            setSize(getPreferredSize());
+        }
 
 
+    }
 
-    }}
+    /*
+     * Return this.space
+     */
+    public GameSpace getGameSpace(){
+        return this.view_panel.getGameSpace();
+    }
+}
