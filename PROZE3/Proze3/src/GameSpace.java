@@ -26,7 +26,7 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 	private Timer timer;
 	private int delay = 100;
 	private int maxColor,counter=0,demagedBubbles=0,point;
-	private boolean isRunning = false, changePosition = false, blockedClicked = false;
+	private boolean isRunning = false, changePosition = false, blockedClicked = false, firstPaint = true;
 	private Thread thread;
 	private double locationX, locationY,movedLocationX,movedLocationY, speedx = 0, speedy = 0, x = 0, y = 0;
 	private int sidex, sidey, capacity = 15;
@@ -114,7 +114,7 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 
 	public void paint(Graphics g) {
 
-Graphics2D g2d=(Graphics2D) g;
+		Graphics2D g2d=(Graphics2D) g;
 
 
 		setLayout(new GridLayout());
@@ -173,7 +173,10 @@ Graphics2D g2d=(Graphics2D) g;
 		//Drawing next bubble to shoot (NextMissle)
 		g.drawImage(NextMissle.img, (int) (sidex / 20), (int) (size2.height * 0.92), diameterx, diametery, null);
 
-		g2d.drawLine(size2.width/2,(int)(size2.height * 0.9),(int)movedLocationX, (int)movedLocationY);
+		//Not to let the arrow be drawn before initiation of the game
+		if(!firstPaint)
+			g2d.drawLine(size2.width/2,(int)(size2.height * 0.9),(int)movedLocationX, (int)movedLocationY);
+		firstPaint = false;
 	}
 
 	/*
@@ -219,10 +222,14 @@ Graphics2D g2d=(Graphics2D) g;
 
 	}
 
-
+	/*
+	 * to track mouse moves by an arrow
+	 * (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
 	public void mouseMoved(MouseEvent event) {
-movedLocationX=event.getX();
-movedLocationY=event.getY();
+		movedLocationX=event.getX();
+		movedLocationY=event.getY();
 	}
 
 	@Override
@@ -264,6 +271,9 @@ movedLocationY=event.getY();
 		stop();
 	}
 
+	/*
+	 * start a thread
+	 */
 	public synchronized void start() {
 		if (isRunning) return;
 		isRunning = true;
@@ -271,7 +281,10 @@ movedLocationY=event.getY();
 		thread.start();
 
 	}
-
+	
+	/*
+	 * stop a thread
+	 */
 	public synchronized void stop() {
 		if (!isRunning) return;
 		isRunning = false;
@@ -288,11 +301,17 @@ movedLocationY=event.getY();
 
 	}
 
+	/*
+	 * Setting start position of a Bubbble
+	 */
 	public void setStartPositionActivityBubble() {
 		x = sidex / 2 - diameterx / 2;
 		y = getHeight() * 0.92;
 	}
 
+	/*
+	 * Counting diameter of Bubbles n the basis of capacity (how much Bubbles in one line)
+	 */
 	private void setDiameter() {
 		sidex = (int) getWidth();
 		sidey = (int) (getHeight() * 0.8);
@@ -301,6 +320,9 @@ movedLocationY=event.getY();
 
 	}
 
+	/*
+	 * calculate next position of Bubble in the animation
+	 */
 	public void moveBubble() {
 		double tmp;
 		if ((getHeight() * 0.92 + realDeltay) <= 0) {
@@ -333,7 +355,9 @@ movedLocationY=event.getY();
 
 	}
 
-
+	/*
+	 * TODO: add commment
+	 */
 	public void deltaSpeed() {
 		double tmpy, tmpx, tmpDelta;
 		int speed = 4;
@@ -353,6 +377,9 @@ movedLocationY=event.getY();
 		}
 	}
 
+	/*
+	 * set beginning values
+	 */
 	public void setInitiation() {
 		speedx = 0;
 		speedy = 0;
@@ -364,6 +391,9 @@ movedLocationY=event.getY();
 
 	}
 
+	/*
+	 * set beginning position of the Missle
+	 */
 	public void initiationMissle() {
 		Missle.setPosition(sidex / 2 - diameterx / 2, (int) (getHeight() * 0.92));
 
@@ -371,29 +401,32 @@ movedLocationY=event.getY();
 
 	}
 
+	/*
+	 * Things done after Missle is with the other Bubbles
+	 */
 	public void setNextMissle() {
-int positionInList;
+		int positionInList;
 
 
 		int positionInRow,positionInColumn;
 		positionInColumn=Missle.getXPosition()/diameterx;
 		positionInRow=Missle.getYPosition()/diametery;
 		positionInList=positionInRow*capacity+positionInColumn;
-if(BubbleList.size()<(positionInList+1)) {
-	while (BubbleList.size() < (positionInList )) {
-		BubbleList.add(null);
-	}
-	BubbleList.add(Missle);
-}
-else {
-	BubbleList.set(positionInList,Missle);
+		if(BubbleList.size()<(positionInList+1)) {
+			while (BubbleList.size() < (positionInList )) {
+				BubbleList.add(null);
+			}
+			BubbleList.add(Missle); //Adding Bubble to the BubbleList
+		}
+		else {
+			BubbleList.set(positionInList,Missle); 
+		
+		}
 
-}
-
-
-extinguishBubble(getNeighborsIndexes(Missle));
-counter++;
-myFunction();
+		
+		extinguishBubble(getNeighborsIndexes(Missle));
+		counter++;
+		myFunction();
 		Missle = NextMissle;
 		Missle.setPosition(sidex / 2 - diameterx / 2, (int) (this.getHeight() * 0.92));
 		NextMissle = new Bubble(Game.getLevel().colorData.colorFiles.get(Game.getLevel().colorChooser.nextInt(maxColor)));
@@ -429,6 +462,10 @@ System.out.println(counter);
 	// = new Bubble(Game.getLevel().colorData.colorFiles.get(Game.getLevel().colorChooser.nextInt(maxColor)));
 	}
 
+	/*
+	 * Check, where to stop the Missle. 
+	 * When the Missle meets with Bubble?
+	 */
 	public void checkColision() {
 		for (int i = 0; i < BubbleList.size(); i++) {
 			if(BubbleList.get(i)!=null)
@@ -542,14 +579,26 @@ System.out.println(counter);
 	 * @param int table with indexes of Bubbles to extinguish
 	 */
 	public void extinguishBubble(int indexes[]){
+		int colorIndex = 0;
 		for(int i: indexes)
 		{
-			//TODO: Check if Bubbles have correctly assigned colors
-			int colorIndex = 5;//ColorData.colorArray.indexOf(BubbleList.get(i).color); //find what index has Bubble color
+			//Bubbles have now correctly assigned colors
+			//System.out.println(BubbleList.get(i).color);
+			try{
+				//System.out.println(BubbleList.get(i).color == null );
+				//colorIndex = 6;
+				colorIndex = ColorData.colorArray.indexOf(BubbleList.get(i).color); //find what index has Bubble color
+			}
+			catch(Exception e)
+			{
+				System.err.println("extinguishBubble: Color of a Bubble in the Bubble List was null!");
+				colorIndex = 5;
+			}
+			
 			try{
 				if(BubbleList.size()>i) {
 					BubbleList.get(i).img = Game.getImageExplosionList().get(colorIndex); //append explosion image
-					demagedBubbles++;
+					demagedBubbles++; //counting points
 				}
 			}
 			catch(Exception e)

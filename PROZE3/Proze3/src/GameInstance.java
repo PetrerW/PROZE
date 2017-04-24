@@ -152,6 +152,8 @@ public class GameInstance {
 				//Adding new Bubble to the list with appropriate Color
 				if(kindBubble>0) {
 					BubbleList.add(new Bubble(imageList.get(kindBubble - 1)));
+					BubbleList.get(BubbleList.size()-1).color = strLine; //set color of added Bubble
+					BubbleList.get(BubbleList.size()-1).colorInt = kindBubble;
 				}
 				else
 				{
@@ -180,6 +182,11 @@ public class GameInstance {
 	 */
 	public void appendUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getUsername()
+	{
+		return this.username;
 	}
 
 	public ArrayList<BufferedImage> getImageList() {
