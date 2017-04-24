@@ -21,13 +21,13 @@ public class FirstWindow extends JFrame implements ActionListener,ItemListener {
         //Show FirstWindow in the middle of the screen
         this.setLocationRelativeTo(null);
 
-       languageChoice= new Choice();
-       languageChoice.addItemListener(this);
-       textt=new JLabel(Config.languageList[2]);
-       OK=new JButton (Config.standardButton[0]);
-       Anuluj= new JButton(Config.standardButton[1]);
-       OK.addActionListener(this);
-       Anuluj.addActionListener(this);
+        languageChoice= new Choice();
+        languageChoice.addItemListener(this);
+        textt=new JLabel(Config.languageList[2]);
+        OK=new JButton (Config.standardButton[0]);
+        Anuluj= new JButton(Config.standardButton[1]);
+        OK.addActionListener(this);
+        Anuluj.addActionListener(this);
         languageChoice.add(Config.languageList[0]);
         languageChoice.add(Config.languageList[1]);
         add(textt);
@@ -58,23 +58,23 @@ public class FirstWindow extends JFrame implements ActionListener,ItemListener {
         else if(source==Anuluj) {
             dispose();
         }}
-    
+
     public void itemStateChanged(ItemEvent ie)
 
     {
-      String arg=ie.getItem().toString();
+        String arg=ie.getItem().toString();
 
-      if(arg==Config.languageList[0])
-      {
-          textt.setText(Config.languageList[2]);
+        if(arg==Config.languageList[0])
+        {
+            textt.setText(Config.languageList[2]);
 
-      }
-      else if (arg==Config.languageList[1])
-      {
-          textt.setText(Config.languageList[3]);
+        }
+        else if (arg==Config.languageList[1])
+        {
+            textt.setText(Config.languageList[3]);
 
 
-      }
+        }
 
     }
 

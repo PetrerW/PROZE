@@ -8,7 +8,7 @@ import java.util.Properties;
  */
 public class Config {
 
-    public static String[] packLanguage = new String[18];
+    public static String[] packLanguage = new String[19];
     public static int[] sizeChoice;
     public static int[] sizeButton;
     public static int[] sizeLabel;
@@ -29,8 +29,9 @@ public class Config {
     private static Properties settings;
 
     static {
-    	
+
         readConfiguration();
+
         sizeChoice = tmp("Choice width","Choice height");
         sizeButton = tmp("Button width","Button height");
         fontLabel = tmp("Label font1","Label font2");
@@ -40,11 +41,12 @@ public class Config {
 
     public static String[] bestRanking() {
 
+
         Properties bestlist=new Properties();
 
         try {
 
-           bestlist.load(new FileInputStream(Config.configurationPath));
+            bestlist.load(new FileInputStream(Config.bestRankingPath));
 
 
         } catch (IOException e) {
@@ -56,12 +58,14 @@ public class Config {
         String[] strLine = new String[20];
         for(int i=1; i<11; i++) {
 
-          strLine[2*i-1] = bestlist.getProperty("Gracz"+(i));
-          strLine[2*i]=bestlist.getProperty("Wynik"+i);
+            strLine[2*i-2] = bestlist.getProperty("Nick "+(i));
+            System.out.println(strLine[2*i-2]);
+            strLine[2*i-1]=bestlist.getProperty("Point "+i);
         }
 
 
         return strLine;
+
     }
 
 
@@ -90,37 +94,37 @@ public class Config {
 
     }
 
-private static int[] tmp(String text,String text2)
-{
-    int[]temp={Integer.parseInt(settings.getProperty(text)),Integer.parseInt(settings.getProperty(text2))};
+    private static int[] tmp(String text,String text2)
+    {
+        int[]temp={Integer.parseInt(settings.getProperty(text)),Integer.parseInt(settings.getProperty(text2))};
 
-    return temp;
-}
+        return temp;
+    }
 
     public static void readConfiguration( ) {
 
 
 
-    Properties defaultSettings = new Properties();
-    defaultSettings.put("Choice width", defaultSizeChoice[0]);
-    defaultSettings.put("Choice height", defaultSizeChoice[1]);
-    defaultSettings.put("Button width", defaultSizeButton[0]);
-    defaultSettings.put("Button height", defaultSizeButton[1]);
-    defaultSettings.put("Label font1", defaultFontLabel[0]);
-    defaultSettings.put("Label font2", defaultFontLabel[1]);
-    defaultSettings.put("Label size1", defaultSizeLabel[0]);
-    defaultSettings.put("Label size2", defaultSizeLabel[1]);
+        Properties defaultSettings = new Properties();
+        defaultSettings.put("Choice width", defaultSizeChoice[0]);
+        defaultSettings.put("Choice height", defaultSizeChoice[1]);
+        defaultSettings.put("Button width", defaultSizeButton[0]);
+        defaultSettings.put("Button height", defaultSizeButton[1]);
+        defaultSettings.put("Label font1", defaultFontLabel[0]);
+        defaultSettings.put("Label font2", defaultFontLabel[1]);
+        defaultSettings.put("Label size1", defaultSizeLabel[0]);
+        defaultSettings.put("Label size2", defaultSizeLabel[1]);
 
 
-    try {
-        settings = new Properties(defaultSettings);
-        settings.load(new FileInputStream(Config.configurationPath));
+        try {
+            settings = new Properties(defaultSettings);
+            settings.load(new FileInputStream(Config.configurationPath));
 
 
-    } catch (IOException e) {
-        //JOptionPane.showMessageDialog(null,"Error");
+        } catch (IOException e) {
+            //JOptionPane.showMessageDialog(null,"Error");
 
-    }
+        }
 
 
 
@@ -129,7 +133,7 @@ private static int[] tmp(String text,String text2)
     public static void writeConfiguration()
     {
         try(FileOutputStream out = new FileOutputStream(Config.configurationPath, true);
-            )
+        )
         {
             Properties defaultSettings = new Properties();
             defaultSettings.put("Choice width", Integer.toString(defaultSizeChoice[0]));

@@ -15,7 +15,7 @@ public class Bubble{
 	//A representing picture
 	BufferedImage img;
 	//Its position in the list
-	int position;
+	 private int positionX,positionY;
 	//Color
 	/*
 	 * y - yellow
@@ -30,7 +30,7 @@ public class Bubble{
 	int colorInt;
 	//Localization on game field
 	int x,y;
-	
+
 	Bubble(){
 		img = new BufferedImage(1,1,1);
 		try {
@@ -39,10 +39,11 @@ public class Bubble{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	color = "Blue";
-	position = 0;
+		color = "Blue";
+		positionX = 0;
+		positionY=0;
 	}
-	
+
 	/*
 	 * Assigns a number to every color.
 	 * Makes organization of Color list easier.
@@ -51,7 +52,8 @@ public class Bubble{
 		this.colorInt = color;
 		//determine color as String
 		this.color = Bubble.determineColor(this.colorInt);
-		position = 0;
+		positionX = 0;
+		positionY=0;
 		String path = "Graphics/" + this.color + ".png";
 		try {
 			img = ImageIO.read(new File(path));
@@ -65,7 +67,8 @@ public class Bubble{
 	Bubble(String color){
 		this.color = color;
 
-		position = 0;
+		positionX = 0;
+		positionY=0;
 		String path = "Graphics/" + this.color + ".png";
 		try {
 			img = ImageIO.read(new File(path));
@@ -75,7 +78,7 @@ public class Bubble{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 * Bubble constructor that gets an already existing file as argument
 	 */
@@ -83,33 +86,14 @@ public class Bubble{
 		StringBuffer sb = new StringBuffer();
 		sb.append(f.getName());
 		if (sb.toString().contains("Graphics/")) {
-		    sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/")+ 9/*Length of "Graphics/" */);
+			sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/")+ 9/*Length of "Graphics/" */);
 		}
 		if (sb.toString().contains(".png")) {
-		    sb.delete(sb.indexOf(".png"), sb.indexOf(".png")+ 4/*Length of ".png" */);
+			sb.delete(sb.indexOf(".png"), sb.indexOf(".png")+ 4/*Length of ".png" */);
 		}
 		this.color = sb.toString();
-		position = 0;
-		try{
-			img = ImageIO.read(f);
-		}
-		catch (IOException e){
-			System.out.println("Failed to read file!");
-			e.printStackTrace();
-		}
-	}	
-	
-	Bubble(File f, StringBuffer sb){
-		//StringBuffer sb = new StringBuffer();
-		sb.append(f.getName());
-		if (sb.toString().contains("Graphics/")) {
-		    sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/")+ 9/*Length of "Graphics/" */);
-		}
-		if (sb.toString().contains(".png")) {
-		    sb.delete(sb.indexOf(".png"), sb.indexOf(".png")+ 4/*Length of ".png" */);
-		}
-		this.color = sb.toString();
-		position = 0;
+		positionX = 0;
+		positionY=0;
 		try{
 			img = ImageIO.read(f);
 		}
@@ -118,14 +102,35 @@ public class Bubble{
 			e.printStackTrace();
 		}
 	}
-	
+
+	Bubble(File f, StringBuffer sb){
+		//StringBuffer sb = new StringBuffer();
+		sb.append(f.getName());
+		if (sb.toString().contains("Graphics/")) {
+			sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/")+ 9/*Length of "Graphics/" */);
+		}
+		if (sb.toString().contains(".png")) {
+			sb.delete(sb.indexOf(".png"), sb.indexOf(".png")+ 4/*Length of ".png" */);
+		}
+		this.color = sb.toString();
+		positionX = 0;
+		positionY=0;
+		try{
+			img = ImageIO.read(f);
+		}
+		catch (IOException e){
+			System.out.println("Failed to read file!");
+			e.printStackTrace();
+		}
+	}
+
 	/*
 	 * Bubble constructor that gets an already existing image as argument
 	 */
 	Bubble (BufferedImage img){
 		this.img = img;
 	}
-	
+
 	/*
 	 * determine color as integer when having a String
 	 * example. "Red" -> 4
@@ -135,48 +140,61 @@ public class Bubble{
 		switch(color)
 		{
 			case "Yellow": colorInt = 1;
-			break;
+				break;
 			case "Blue": colorInt = 2;
-			break;
+				break;
 			case "Green": colorInt = 3;
-			break;
+				break;
 			case "Red" : colorInt = 4;
-			break;
+				break;
 			case "Purple": colorInt = 5;
-			break;
+				break;
 			case "Orange": colorInt = 6;
-			break;
+				break;
 			default:
 				colorInt = 1;
 				break;
 		}
 		return colorInt;
 	}
-	
+
 	/*
 	 * determine Color as String, having already an int
 	 * example: 4 -> "Red"
 	 */
-	public static String determineColor(int colorInt){
+	public static String determineColor(int colorIntt){
 		String color;
-		switch(colorInt)
+		switch(colorIntt)
 		{
 			case 1: color="Yellow";
-			break;
+				break;
 			case 2: color="Blue";
-			break;
+				break;
 			case 3: color="Green";
-			break;
+				break;
 			case 4 : color="Red";
-			break;
+				break;
 			case 5: color="Purple";
-			break;
+				break;
 			case 6: color="Orange";
-			break;
+				break;
 			default:
 				color = "Yellow";
 				break;
 		}
 		return color;
+	}
+	public int getXPosition()
+	{
+		return positionX;
+	}
+	public int getYPosition()
+	{
+		return positionY;
+	}
+	public void setPosition(int x, int y)
+	{
+		this.positionX=x;
+		this.positionY=y;
 	}
 }
