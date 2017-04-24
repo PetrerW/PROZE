@@ -579,14 +579,26 @@ System.out.println(counter);
 	 * @param int table with indexes of Bubbles to extinguish
 	 */
 	public void extinguishBubble(int indexes[]){
+		int colorIndex = 0;
 		for(int i: indexes)
 		{
-			//TODO: Check if Bubbles have correctly assigned colors
-			int colorIndex = 5;//ColorData.colorArray.indexOf(BubbleList.get(i).color); //find what index has Bubble color
+			//Bubbles have now correctly assigned colors
+			//System.out.println(BubbleList.get(i).color);
+			try{
+				//System.out.println(BubbleList.get(i).color == null );
+				//colorIndex = 6;
+				colorIndex = ColorData.colorArray.indexOf(BubbleList.get(i).color); //find what index has Bubble color
+			}
+			catch(Exception e)
+			{
+				System.err.println("extinguishBubble: Color of a Bubble in the Bubble List was null!");
+				colorIndex = 5;
+			}
+			
 			try{
 				if(BubbleList.size()>i) {
 					BubbleList.get(i).img = Game.getImageExplosionList().get(colorIndex); //append explosion image
-					demagedBubbles++;
+					demagedBubbles++; //counting points
 				}
 			}
 			catch(Exception e)
