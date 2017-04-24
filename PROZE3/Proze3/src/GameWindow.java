@@ -34,8 +34,7 @@ public class GameWindow extends JFrame implements ActionListener {
         setMinimumSize(new Dimension(600,600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        
-        
+
          view_panel=new ViewPanel();
          space=getGameSpace();
         menubar=new JMenuBar();
@@ -44,7 +43,7 @@ public class GameWindow extends JFrame implements ActionListener {
         view = new JMenu("Widok");
 
         //TODO: add its text to be read from Config data
-        setDefaultView = new JMenuItem("Ustaw pocz¹tkowy widok");
+        setDefaultView = new JMenuItem("Ustaw poczÂ¹tkowy widok");
         newGame=new JMenuItem(Config.packLanguage[1]);
 
         save= new JMenuItem(Config.packLanguage[3]);
@@ -139,6 +138,8 @@ public class GameWindow extends JFrame implements ActionListener {
 
                 JOptionPane.showMessageDialog(null, message,
                         Config.packLanguage[11], JOptionPane.PLAIN_MESSAGE);
+
+
             }
 
 
@@ -175,6 +176,8 @@ public class GameWindow extends JFrame implements ActionListener {
             //Set default size
             setSize(getPreferredSize());
         }
+
+
     }
 
     /*

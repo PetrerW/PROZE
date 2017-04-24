@@ -13,9 +13,11 @@ public class GameInstance {
 	private int score;
 	private Level level;
 	private ArrayList<BufferedImage> imageList;
+	private ArrayList<BufferedImage> imageExplosionList;
 
 	GameInstance() {
 		readImagefromFile();
+		readImageExplosionfromFile();
 		setLevel(new Level());
 	}
 
@@ -48,6 +50,35 @@ public class GameInstance {
 				System.out.println("Failed to read file!");
 				e.printStackTrace();
 			}
+
+		}
+
+	}
+	public void readImageExplosionfromFile() {
+		String color;
+		int position;
+		imageExplosionList = new ArrayList<BufferedImage>();
+		BufferedImage img;
+
+		StringBuffer sb = new StringBuffer();
+		for (String f : Level.explosionData.fileName) {
+			sb.append(f);
+			if (sb.toString().contains("Graphics/")) {
+				sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/") + 9/*Length of "Graphics/" */);
+			}
+			if (sb.toString().contains(".png")) {
+				sb.delete(sb.indexOf(".png"), sb.indexOf(".png") + 4/*Length of ".png" */);
+			}
+			color = sb.toString();
+			position = 0;
+			try {
+				img = ImageIO.read(new File(f));
+				imageExplosionList.add(img);
+			} catch (IOException e) {
+				System.out.println("Failed to read file!");
+				e.printStackTrace();
+			}
+
 		}
 
 	}
@@ -151,14 +182,17 @@ public class GameInstance {
 		this.username = username;
 	}
 	
-	/*
-	 * Get username of the GameInstance
-	 */
-	public String getUsername(){
+	public String getUsername()
+	{
 		return this.username;
 	}
 
 	public ArrayList<BufferedImage> getImageList() {
 		return this.imageList;
+	}
+
+	public ArrayList<BufferedImage>getImageExplosionList()
+	{
+		return this.imageExplosionList;
 	}
 }

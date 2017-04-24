@@ -15,4 +15,3 @@ Choose language
 Scores
 Next
 Level
-Player

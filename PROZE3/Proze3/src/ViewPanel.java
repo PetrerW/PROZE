@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Daniel on 2017-03-27.
  */
-public class ViewPanel extends JPanel {
+public class ViewPanel extends JPanel implements ActionListener {
     JButton start_pause;
     JLabel scores, scoresCount;
 
@@ -13,20 +15,12 @@ public class ViewPanel extends JPanel {
     private GameSpace previewPanel;
     private CountPointPanel pointPanel;
     private GameWindow gameFrame;
-    private JPanel box, box2;
+    private JPanel box3;
     private TextPanel level, scoreText;
-    private JLabel username;
 
-    /*
-     * @param _username Username of a player that plays current game
-     */
-    ViewPanel(String _username) {
-    	this();
-    	username = new JLabel(_username);
-    	box.add(username);
-    }
-    
+
     ViewPanel() {
+
 
         //_previewPanel = new GridPanel(4, 4, true, Config.interfaceColors[1],
         //      Config.boardSize);*/
@@ -41,6 +35,7 @@ public class ViewPanel extends JPanel {
 
         start_pause = new JButton(Config.packLanguage[9]);
         start_pause.setPreferredSize(new Dimension(Config.sizeButton[0], Config.sizeButton[1]));
+        start_pause.addActionListener(this);
         // _level = new TextPanel(Config.language[28] + " 1",
         //         Config.interfaceColors[2], Config.textSize[2]);
 
@@ -48,12 +43,12 @@ public class ViewPanel extends JPanel {
         pointPanel.setPreferredSize(new Dimension(Config.sizeLabel[0], Config.fontLabel[1]));
 
 
-        box = new JPanel();
-        box2 = new JPanel();
+        JPanel box = new JPanel();
+        JPanel box2 = new JPanel();
         level = new TextPanel(Config.packLanguage[16], Config.fontLabel[0]);
         scoreText.setPreferredSize(new Dimension(Config.sizeLabel[0],
                 Config.fontLabel[0] * 3 / 2));
-        
+
         box.setLayout(new BoxLayout(box, BoxLayout.PAGE_AXIS));
         JPanel all = new JPanel();
         all.setLayout(new GridLayout(5, 1));
@@ -72,7 +67,7 @@ public class ViewPanel extends JPanel {
         all.add(box);
         all.add(level);
 
-        space = new GameSpace();
+        space = new GameSpace(pointPanel);
         add(space, BorderLayout.CENTER);
         add(all, BorderLayout.EAST);
         // add(space, BorderLayout.CENTER);
@@ -88,5 +83,16 @@ public class ViewPanel extends JPanel {
 
     public GameSpace getGameSpace() {
         return this.space;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        Object source=e.getSource();
+
+        if(source==start_pause)
+        {
+          //  space.stop();
+        }
     }
 }

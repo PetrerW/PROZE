@@ -15,4 +15,3 @@ Wybierz jezyk
 Liczba punktow:
 Nastepna
 Poziom
-Gracz

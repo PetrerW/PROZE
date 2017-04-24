@@ -9,8 +9,8 @@ public class Arrow {
 	private int length;
 	private int width;
 	public int beginningPositionX;
-	public int beginningPositionY;
-	
+ 	public int beginningPositionY;
+
 	Arrow(){
 		img = new BufferedImage(1,1,1);
 		try {
@@ -24,8 +24,6 @@ public class Arrow {
 		length = l;
 		width = w;
 	}
-
-	
 	public int getLength() {return length;}
 	public int getWidth() {return width; }
 }
