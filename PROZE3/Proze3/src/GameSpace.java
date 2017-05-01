@@ -25,21 +25,28 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 	private GameInstance Game;
 	private Timer timer;
 	private int delay = 100;
-	private int maxColor;
-	private boolean isRunning = false, changePosition = false, blockedClicked = false;
-	private Thread thread;
-	private double locationX, locationY, speedx = 0, speedy = 0, x = 0, y = 0;
+	private int maxColor,counter=0,demagedBubbles=0,point;
+	private boolean isRunning = false, changePosition = false, blockedClicked = false, pause=false;
+	private boolean moveOnLeft=false, moveOnRight=false;
+	private Thread thread,thread2;
+	private double locationX, locationY,movedMouseLocationX,movedMouseLocationY, speedx = 0, speedy = 0, x = 0, y = 0;
 	private int sidex, sidey, capacity = 15;
 	private int diameterx, diametery, deltax = 0, deltay = 0;
 	private double realDeltax = 0, realDeltay = 0;
+	private CountPointPanel countPointPanel;
+	private double lastHeight, lastWidth;
+	private double scaleValueX=1,scaleValueY=1;
 
 
-	GameSpace() {
+
+
+	GameSpace(CountPointPanel pointPanel) {
 		setMinimumSize(new Dimension(600, 600));
 		setDiameter();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		Game = new GameInstance();
+		countPointPanel=pointPanel;
 
 		File levelFile = new File("LevelConfig.txt");
 		Game.getLevel().writeToFile();
@@ -111,11 +118,19 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 
 	public void paint(Graphics g) {
 
+Graphics2D g2d=(Graphics2D) g;
+
 
 		setLayout(new GridLayout());
 
 		Dimension size2;
 		size2 = this.getSize();
+
+		scalingLocationParameters();
+
+		float[] dash={2f,0f,2f};
+		BasicStroke basicStroke=new BasicStroke(1,BasicStroke.CAP_BUTT,BasicStroke.JOIN_ROUND,1.0f,dash,2f);
+		g2d.setStroke(basicStroke);
 
 		g.setColor(Color.black);
 		//Rectangle scales with screen
@@ -135,7 +150,9 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 
 		diameterx = (int) (sidex / (capacity + 0.5));
 		diametery = (int) (sidey / (capacity + 0.5)) + 1;
-		// setPositionBubble();
+		//initiationMissle();
+		setPositionBubble();
+		 //initiationMissle();
 
 
 
@@ -156,14 +173,13 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 			}
 		}
 		//Setting a missle under the game field
-		g.drawImage(Missle.img, (int) (Missle.getXPosition() + deltax), (int) (Missle.getYPosition() + deltay), diameterx, diametery, null);
-		//Missle.setPosition(sidex/2 - diameterx/2+deltax,(int)(size2.height*0.92+deltay));
+		g.drawImage(Missle.img, (Missle.getXPosition() ), (Missle.getYPosition() ), diameterx, diametery, null);
 
-		//Drawing an arrow
-		ShootArrow.setSize(diametery * 5, diameterx);
-		g.drawImage(ShootArrow.img, (int) (sidex / 2 - diameterx / 2), (int) (size2.height * 0.92 - ShootArrow.getLength() * 1.01), ShootArrow.getWidth(), ShootArrow.getLength(), null);
+
 		//Drawing next bubble to shoot (NextMissle)
-		g.drawImage(NextMissle.img, (int) (sidex / 20), (int) (size2.height * 0.92), diameterx, diametery, null);
+		g.drawImage(NextMissle.img, (int) (getWidth() / 20), (int) (size2.height * 0.92), diameterx, diametery, null);
+
+		g2d.drawLine(size2.width/2,(int)(size2.height * 0.92+diametery/2),(int)movedMouseLocationX, (int)(movedMouseLocationY));
 	}
 
 	/*
@@ -178,7 +194,21 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 		if (!blockedClicked) {
 			locationX = e.getX();
 			locationY = e.getY();
+
+			if(locationX>getHeight()/2)
+			{
+				moveOnRight=true;
+				moveOnLeft=false;
+			}
+			else
+			{
+				moveOnLeft=true;
+				moveOnRight=false;
+			}
+
 			changePosition = true;
+			lastWidth=getWidth();
+			lastHeight=getHeight();
 			deltaSpeed();
 			blockedClicked = true;
 		}
@@ -196,7 +226,7 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent event) {
 
 	}
 
@@ -209,11 +239,17 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 
 	}
 
-	//metoda wywoływana, gdy poruszamy kursor w obszarze nasłuchującym zdarzenia
+
 	public void mouseMoved(MouseEvent event) {
+		if (event.getX() < getWidth() && event.getY() > 0) {
+			movedMouseLocationX = event.getX();
+			movedMouseLocationY = event.getY();
+		} else {
 
+			movedMouseLocationX = getWidth()/2;
+			movedMouseLocationY = getHeight()*0.92;
+		}
 	}
-
 	@Override
 	public void run() {
 		int fps = 0;
@@ -222,35 +258,26 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 		double targetTick = 60.0;
 		double delta = 0;
 		double ns = 1000000000 / targetTick;
-
+try{
 		while (isRunning) {
-			long now = System.nanoTime();
+			/*long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
-			while (delta >= 1) {
-				//checkColision();
-				//deltaSpeed();
-				//moveBubble();
-				try {
-					Thread.sleep(20);
-				} catch (InterruptedException ex) {
-					Thread.currentThread().interrupt();
-				}
+		//	while (delta >= 1) {*/
+System.out.println("poczatek");
 
-				repaint();
-				moveBubble();
-				checkColision();
-				fps++;
-				delta++;
-			}
+				work();
 
-			if (System.currentTimeMillis() - timer >= 1000) {
 
-				fps = 0;
-				timer += 1000;
-			}
+System.out.println("koniec");
+
 		}
-		stop();
+	}catch(InterruptedException e)
+		{
+
+		}
+
+
 	}
 
 	public synchronized void start() {
@@ -259,16 +286,57 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 		thread = new Thread(this);
 		thread.start();
 
+
+
+	}
+
+	public synchronized void work() throws InterruptedException {
+		while(pause) {
+			wait();
+		}
+		try {
+			thread.sleep(30);
+		} catch (InterruptedException ex) {
+			thread.currentThread().interrupt();
+		}
+System.out.println("1"+thread);
+		repaint();
+		deltaSpeed();
+		//scalingMisslePosition();
+		moveBubble();
+		checkColision();
+
+		notify(); // notifyAll() for multiple producer/consumer threads
+	}
+
+	public synchronized void take() throws InterruptedException {
+	System.out.println("ooo");
+			while(!pause) {
+			wait();
+		}
+		System.out.println("ooo1");
+
+		notify(); // notifyAll() for multiple producer/consumer threads
+	}
+
+	public synchronized void resumption() {
+		if (isRunning) return;
+		isRunning = true;
+		notify();
+
+
 	}
 
 	public synchronized void stop() {
 		if (!isRunning) return;
 		isRunning = false;
-		try {
-			thread.join();
+		notify();
+		/*try {
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
+
 
 	}
 
@@ -290,55 +358,100 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 
 	}
 
+	public void scalingLocationParameters()
+	{
+
+		scaleValueY=getHeight()/lastHeight;
+		scaleValueX=getWidth()/lastWidth;
+
+		lastHeight=getHeight();
+		lastWidth=getWidth();
+
+		locationX=locationX*scaleValueX;
+		locationY=locationY*scaleValueY;
+		movedMouseLocationX=movedMouseLocationX*scaleValueX;
+		movedMouseLocationY=movedMouseLocationY*scaleValueY;
+
+
+	}
+public void scalingMisslePosition()
+{
+
+	speedx*=scaleValueX;
+	speedy*=scaleValueY;
+}
+
+
 	public void moveBubble() {
 		double tmp;
+		speedx*=scaleValueX;
+		speedy*=scaleValueY;
 		if ((getHeight() * 0.92 + realDeltay) <= 0) {
 			realDeltay = 0.92 * getHeight();
 			changePosition = false;
-			tmp = Math.round((Missle.getXPosition() + deltax) / (getHeight() / (capacity + 0.5)));
+			tmp = Math.round((Missle.getDoubleXPosition() ) / (getHeight() / (capacity + 0.5)));
 			Missle.setPosition((int) (tmp * diameterx), 0);
 			setInitiation();
 			setNextMissle();
 		}
 		if (changePosition) {
-			if ((sidex / 2 - diameterx / 2 + deltax) <= 0 || (sidex / 2 + diameterx / 2 + deltax) >= getWidth()) {
-				speedx = speedx * (-1);
+			if ( Missle.getXPosition() <= 0 ) {
+				//speedx = speedx * (-1);
+				moveOnRight=true;
+				moveOnLeft=false;
+			} else if( (Missle.getDoubleXPosition()+diameterx) >= getWidth())
+			{
+				moveOnRight=false;
+				moveOnLeft=true;
 			}
 			if ((getHeight() * 0.92 - locationY) > 0) {
-				if (locationX - (sidex / 2 - diameterx / 2) > 0) {
-					realDeltax += speedx;
-					realDeltay -= speedy;
+				//if (locationX - (getWidth() / 2 - diameterx / 2) > 0) {
+				if(moveOnRight){
+					Missle.setPosition(Missle.getDoubleXPosition()+speedx,Missle.getYPosition()-speedy);
+
 				} else {
-					realDeltax -= speedx;
-					realDeltay -= speedy;
+					Missle.setPosition(Missle.getDoubleXPosition()-speedx,Missle.getYPosition()-speedy);
+					/*realDeltax -= speedx;
+					realDeltay -= speedy;*/
 
 				}
 
-				deltax = (int) realDeltax;
-				deltay = (int) realDeltay;
+				/*deltax = (int) realDeltax;
+				deltay = (int) realDeltay;*/
 
 			}
 		}
+		//realDeltax*=scaleValueX;
+		//realDeltay*=scaleValueY;
 
 	}
 
 
+
 	public void deltaSpeed() {
 		double tmpy, tmpx, tmpDelta;
-		int speed = 5;
+		int speed = 4;
+
+
 		if (getHeight() * 0.92 - locationY > 50) {
-			tmpx = locationX - (sidex / 2 - diameterx / 2);
-			tmpy = (getHeight() * 0.92) - locationY;
+			tmpx = locationX - (getHeight() / 2  );
+			tmpy = (getHeight()*0.92+diametery/2) - locationY;
 
 			tmpDelta = Math.abs(tmpx) / Math.abs(tmpy);
 			if (tmpDelta < 1) {
-				speedx = speed * tmpDelta;
-				speedy = (1 - tmpDelta) * speed;
+				speedy = speed;
+				speedx=tmpDelta*speedy;
+
 			} else {
-				speedx = tmpDelta / (tmpDelta + 1) * speed;
-				speedy = 1 / (tmpDelta + 1) * speed;
+				speedx = speed;
+				speedy=speedx/tmpDelta;
 			}
 		}
+		else
+		{
+			blockedClicked=false;
+		}
+
 	}
 
 	public void setInitiation() {
@@ -349,21 +462,43 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 		realDeltax = 0;
 		realDeltay = 0;
 		blockedClicked = false;
+
 	}
 
 	public void initiationMissle() {
-		Missle.setPosition(sidex / 2 - diameterx / 2, (int) (getHeight() * 0.92));
+		Missle.setPosition(getWidth() / 2 - diameterx / 2, (int) (getHeight() * 0.92));
 
 		NextMissle.setPosition(diametery * 5, diameterx);
 
 	}
 
 	public void setNextMissle() {
-		BubbleList.add(Missle);
+int positionInList;
+
+
+		int positionInRow,positionInColumn;
+		positionInColumn=Missle.getXPosition()/diameterx;
+		positionInRow=Missle.getYPosition()/diametery;
+		positionInList=positionInRow*capacity+positionInColumn;
+if(BubbleList.size()<(positionInList+1)) {
+	while (BubbleList.size() < (positionInList )) {
+		BubbleList.add(null);
+	}
+	BubbleList.add(Missle);
+}
+else {
+	BubbleList.set(positionInList,Missle);
+
+}
+
+
+extinguishBubble(getNeighborsIndexes(Missle));
+counter++;
+myFunction();
 		Missle = NextMissle;
-		Missle.setPosition(sidex / 2 - diameterx / 2, (int) (this.getHeight() * 0.92));
+		Missle.setPosition(getWidth() / 2 - diameterx / 2, (int) (this.getHeight() * 0.92));
 		NextMissle = new Bubble(Game.getLevel().colorData.colorFiles.get(Game.getLevel().colorChooser.nextInt(maxColor)));
-		NextMissle.setPosition((int) (sidex / 20), (int) (getHeight() * 0.92));
+		NextMissle.setPosition((int) (getWidth() / 20), (int) (getHeight() * 0.92));
 	}
 
 	public void setPositionBubble() {
@@ -380,6 +515,20 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 				BubbleList.get(i).setPosition((int) x, (int) (i / capacity) * diametery);
 			}
 		}
+		Missle.setPosition(Missle.getDoubleXPosition()*scaleValueX,Missle.getDoubleYPosition()*scaleValueY);
+	}
+
+	public void myFunction()
+	{
+System.out.println(counter);
+		if(counter==4)
+		{
+			for(int i=0; i<capacity;i++) {
+				BubbleList.add(0, new Bubble(Game.getImageList().get(Game.getLevel().colorChooser.nextInt(maxColor))));
+			}
+			counter=0;
+		}
+	// = new Bubble(Game.getLevel().colorData.colorFiles.get(Game.getLevel().colorChooser.nextInt(maxColor)));
 	}
 
 	public void checkColision() {
@@ -387,13 +536,22 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 			if(BubbleList.get(i)!=null)
 			if ((Missle.getYPosition() + deltay) <= (BubbleList.get(i).getYPosition() + diametery)
 					&&(Missle.getYPosition() + deltay) > (BubbleList.get(i).getYPosition())) {
-				if ((Missle.getXPosition() + deltax) > (BubbleList.get(i).getXPosition() - diameterx / 2)
-						&& (Missle.getXPosition() + deltax) < (BubbleList.get(i).getXPosition() + diameterx / 2)) {
+				if ((Missle.getXPosition() + deltax) > (BubbleList.get(i).getXPosition() - diameterx *3/4)
+						&& (Missle.getXPosition() + deltax) < (BubbleList.get(i).getXPosition() + diameterx * 3/4)) {
 					if ((Missle.getXPosition() + deltax) > (BubbleList.get(i).getXPosition())) {
-						Missle.setPosition(BubbleList.get(i).getXPosition() + diameterx / 2, BubbleList.get(i).getYPosition() + diametery);
-						changePosition = false;
-						setInitiation();
-						setNextMissle();
+						//if( (Missle.getYPosition() + deltay) > (BubbleList.get(i).getYPosition()+diametery/2)) {
+							Missle.setPosition(BubbleList.get(i).getXPosition() + diameterx / 2, BubbleList.get(i).getYPosition() + diametery);
+							changePosition = false;
+							setInitiation();
+							setNextMissle();
+						//}
+						//else
+						{
+						/*	Missle.setPosition(BubbleList.get(i).getXPosition() + diameterx / 2, BubbleList.get(i).getYPosition() + diametery);
+							changePosition = false;
+							setInitiation();
+							setNextMissle();*/
+						}
 
 					} else {
 						Missle.setPosition(BubbleList.get(i).getXPosition() - diameterx / 2, BubbleList.get(i).getYPosition()+diametery);
@@ -406,8 +564,8 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 				}
 			} else if ((Missle.getYPosition() + deltay) > (BubbleList.get(i).getYPosition() - diametery / 2)
 					&& (Missle.getYPosition() + deltay) < (BubbleList.get(i).getYPosition() + diametery / 2)) {
-				if ((Missle.getXPosition() + deltax) > (BubbleList.get(i).getXPosition())
-						&& (Missle.getXPosition() + deltax) < (BubbleList.get(i).getXPosition() + diameterx)) {
+				if ((Missle.getXPosition() + deltax+diameterx) > (BubbleList.get(i).getXPosition()+diameterx/5)
+						&& (Missle.getXPosition() + deltax) < (BubbleList.get(i).getXPosition() + diameterx*4/5)) {
 					if((Missle.getXPosition()+deltax)>(BubbleList.get(i).getXPosition() + diameterx/2)) {
 						Missle.setPosition(BubbleList.get(i).getXPosition() + diameterx, BubbleList.get(i).getYPosition());
 						changePosition = false;
@@ -425,5 +583,133 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 			}
 
 		}
+	}
+
+	/*
+	 * get indexes of Bubbles that are neighbors of a particular Bubble
+	 * @param Bubble object, whose neighbours we're looking for
+	 * @return int table filled with indexes of neighbours in BubbleList
+	 */
+	public int[] getNeighborsIndexes(Bubble B){
+		int B_index = BubbleList.indexOf(B);
+
+		if(B_index == 0) //left-top
+		{
+			int indexes[] = {1};
+			return indexes;
+		}
+		if(B_index - capacity + 1 <= 0)  //top
+		{
+			int indexes[] = {B_index-1, B_index+1, B_index + capacity - 1, B_index + capacity};
+			return indexes;
+		}
+
+		if((B_index - 1)%(capacity-1) ==0 ) //left margin
+			if((B_index - B_index%capacity)/capacity%2 == 0){ // left row
+				int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index + 1, B_index + capacity -1,
+						B_index+capacity};
+				return indexes;
+			}
+			else{ //right row
+				int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index + 1, B_index + capacity,
+						B_index+capacity+1};
+				return indexes;
+			}
+
+		if((B_index - 1)%(capacity-1) == 0 ) //right margin
+			if((B_index - B_index%capacity)/capacity%2 == 0){ // left row
+				int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index - 1, B_index + capacity -1,
+						B_index+capacity};
+				return indexes;
+			}
+			else{ //right row
+				int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index - 1, B_index + 1, B_index + capacity,
+						B_index+capacity+1};
+				return indexes;
+			}
+
+		if((B_index/ capacity)%2 == 0){ // left row
+			int indexes[] = {B_index - capacity - 1, B_index - capacity, B_index - 1,B_index, B_index + 1, B_index + capacity +1,
+					B_index+capacity};
+			return indexes;
+		}
+
+		else { //if((B_index - B_index%capacity)/capacity%2 == 1) //right row
+			int indexes[] = {B_index - capacity, B_index - capacity + 1, B_index - 1,B_index, B_index + 1, B_index + capacity,
+					B_index+capacity-1};
+			return indexes;
+		}
+	}
+	/*
+	 * @param int table with indexes of Bubbles to extinguish
+	 */
+	public void extinguishBubble(int indexes[]){
+		for(int i: indexes)
+		{
+			//TODO: Check if Bubbles have correctly assigned colors
+			int colorIndex = 5;//ColorData.colorArray.indexOf(BubbleList.get(i).color); //find what index has Bubble color
+			try{
+				if(BubbleList.size()>i) {
+					BubbleList.get(i).img = Game.getImageExplosionList().get(colorIndex); //append explosion image
+					demagedBubbles++;
+				}
+			}
+			catch(Exception e)
+			{
+				System.err.println("extinguishBubble");
+			}
+		}
+		repaint();
+		try {
+			thread.sleep(20);
+		} catch (InterruptedException ex) {
+			thread.currentThread().interrupt();
+		}
+		for(int i:indexes)
+		{
+			System.out.println(BubbleList.size());
+			System.out.println(i);
+			if(BubbleList.size()>(i)) {
+				BubbleList.set((i ), null);
+			}
+			//System.out.println(i);
+		}
+		countAndSetPoint();
+
+	}
+
+	public void countAndSetPoint()
+	{
+		if(demagedBubbles==3)
+		{
+			point+=10;
+		}
+		else if(demagedBubbles==4)
+		{
+			point+=20;
+		}
+		else
+		{
+			point+=3;
+		}
+		countPointPanel.setScore(point);
+		demagedBubbles=0;
+	}
+
+	/*
+	 * get GameInstance
+	 */
+	public GameInstance getGame()
+	{
+		return Game;
+	}
+
+	/*
+	* set value variable pause
+	* @param value is true or false parameter
+	 */
+	public void setPause(boolean value)
+	{
+		pause=value;
 	}
 }

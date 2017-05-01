@@ -1,20 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Daniel on 2017-03-27.
  */
-public class ViewPanel extends JPanel {
+public class ViewPanel extends JPanel implements ActionListener, Runnable {
     JButton start_pause;
     JLabel scores, scoresCount;
 
-
+    private Thread thread;
     private GameSpace space;
-    private GameSpace previewPanel;
     private CountPointPanel pointPanel;
     private GameWindow gameFrame;
-    private JPanel box3;
     private TextPanel level, scoreText;
+    private boolean start=false;
+    private boolean isRunning=false;
 
 
     ViewPanel() {
@@ -31,8 +33,9 @@ public class ViewPanel extends JPanel {
         //  TextPanel previewText = new TextPanel(Config.packLanguage[15] + ":",
         //        Config.fontLabel[0]);
 
-        start_pause = new JButton(Config.packLanguage[9]);
+        start_pause = new JButton(Config.packLanguage[10]);
         start_pause.setPreferredSize(new Dimension(Config.sizeButton[0], Config.sizeButton[1]));
+        start_pause.addActionListener(this);
         // _level = new TextPanel(Config.language[28] + " 1",
         //         Config.interfaceColors[2], Config.textSize[2]);
 
@@ -64,7 +67,7 @@ public class ViewPanel extends JPanel {
         all.add(box);
         all.add(level);
 
-        space = new GameSpace();
+        space = new GameSpace(pointPanel);
         add(space, BorderLayout.CENTER);
         add(all, BorderLayout.EAST);
         // add(space, BorderLayout.CENTER);
@@ -80,5 +83,52 @@ public class ViewPanel extends JPanel {
 
     public GameSpace getGameSpace() {
         return this.space;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        Object source=e.getSource();
+
+        if(source==start_pause) {
+
+                if (isRunning) {
+                    if (start == false) {
+
+                        start_pause.setText(Config.packLanguage[9]);
+                        space.setPause(true);
+                        start = true;
+
+                    } else {
+
+                        start_pause.setText(Config.packLanguage[10]);
+                        space.setPause(false);
+                        start = false;
+                    }
+                }
+
+            }
+        }
+
+    @Override
+    public void run() {
+while(isRunning)
+{
+
+    try {
+        space.take();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
+    }
+    public synchronized void start() {
+        if (isRunning) return;
+        isRunning = true;
+        thread = new Thread(this);
+        thread.start();
+
+
+
     }
 }

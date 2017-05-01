@@ -14,12 +14,15 @@ public class Level {
 	public static Random colorChooser;
 	//File[] colorFiles = {new File("Graphics/Yellow.png"), new File("Graphics/Blue.png"), new File("Graphics/Green.png"), new File("Graphics/Purple.png"), new File("Graphics/Red.png"), new File("Graphics/Multicolor.png"), new File("Graphics/Orange.png")};
 	public static ColorData colorData;
+	//A class with images of exploding bubbles
+	public static ExplosionImageData explosionData;
 	//A variable that says how much colors will be in the app
 	int maxColor;
 	private String howHard;
 
 	static{
 		Level.colorData = new ColorData();
+		Level.explosionData = new ExplosionImageData();
 	}
 
 	Level(){

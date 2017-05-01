@@ -186,4 +186,7 @@ public class GameWindow extends JFrame implements ActionListener {
     public GameSpace getGameSpace(){
         return this.view_panel.getGameSpace();
     }
+    public ViewPanel getViewPanel(){
+        return this.view_panel;
+    }
 }

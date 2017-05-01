@@ -8,7 +8,7 @@ import java.util.Properties;
  */
 public class Config {
 
-    public static String[] packLanguage = new String[18];
+    public static String[] packLanguage = new String[19];
     public static int[] sizeChoice;
     public static int[] sizeButton;
     public static int[] sizeLabel;
@@ -31,6 +31,7 @@ public class Config {
     static {
 
         readConfiguration();
+
         sizeChoice = tmp("Choice width","Choice height");
         sizeButton = tmp("Button width","Button height");
         fontLabel = tmp("Label font1","Label font2");
@@ -40,11 +41,12 @@ public class Config {
 
     public static String[] bestRanking() {
 
+
         Properties bestlist=new Properties();
 
         try {
 
-            bestlist.load(new FileInputStream(Config.configurationPath));
+            bestlist.load(new FileInputStream(Config.bestRankingPath));
 
 
         } catch (IOException e) {
@@ -56,12 +58,14 @@ public class Config {
         String[] strLine = new String[20];
         for(int i=1; i<11; i++) {
 
-            strLine[2*i-1] = bestlist.getProperty("Gracz"+(i));
-            strLine[2*i]=bestlist.getProperty("Wynik"+i);
+            strLine[2*i-2] = bestlist.getProperty("Nick "+(i));
+            System.out.println(strLine[2*i-2]);
+            strLine[2*i-1]=bestlist.getProperty("Point "+i);
         }
 
 
         return strLine;
+
     }
 
 

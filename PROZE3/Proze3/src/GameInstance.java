@@ -13,9 +13,11 @@ public class GameInstance {
 	private int score;
 	private Level level;
 	private ArrayList<BufferedImage> imageList;
+	private ArrayList<BufferedImage> imageExplosionList;
 
 	GameInstance() {
 		readImagefromFile();
+		readImageExplosionfromFile();
 		setLevel(new Level());
 	}
 
@@ -23,6 +25,9 @@ public class GameInstance {
 		setLevel(new Level(maxColor));
 	}
 
+	/*
+	 * Create list of bubble Image
+	 */
 
 	public void readImagefromFile() {
 		String color;
@@ -48,6 +53,38 @@ public class GameInstance {
 				System.out.println("Failed to read file!");
 				e.printStackTrace();
 			}
+
+		}
+
+	}
+	/*
+	* Create list of explosion image
+	 */
+	public void readImageExplosionfromFile() {
+		String color;
+		int position;
+		imageExplosionList = new ArrayList<BufferedImage>();
+		BufferedImage img;
+
+		StringBuffer sb = new StringBuffer();
+		for (String f : Level.explosionData.fileName) {
+			sb.append(f);
+			if (sb.toString().contains("Graphics/")) {
+				sb.delete(sb.indexOf("Graphics/"), sb.indexOf("Graphics/") + 9/*Length of "Graphics/" */);
+			}
+			if (sb.toString().contains(".png")) {
+				sb.delete(sb.indexOf(".png"), sb.indexOf(".png") + 4/*Length of ".png" */);
+			}
+			color = sb.toString();
+			position = 0;
+			try {
+				img = ImageIO.read(new File(f));
+				imageExplosionList.add(img);
+			} catch (IOException e) {
+				System.out.println("Failed to read file!");
+				e.printStackTrace();
+			}
+
 		}
 
 	}
@@ -70,7 +107,11 @@ public class GameInstance {
 			}
 		}
 	}
+	/*
+         *Save information about type Bubble kept
+         * @param ArrayList with type of bubble color
 
+         */
 	public void writeToFileString(ArrayList<String> ColorList) {
 		//If the directory doesn't exist...
 		if (!new File("/Graphics").exists())
@@ -96,7 +137,11 @@ public class GameInstance {
 		}
 	}
 
-
+	/*
+	 *Create BubbleList to display on the game
+	 * @param String file name from which Bubble is loaded
+	 * @return BubbleList with object type Bubble
+	 */
 	//TODO Add reading from directory. Actually works if config files are in the project directory
 	public ArrayList<Bubble> readFromFile(String f) {
 		ArrayList<Bubble> BubbleList = new ArrayList<>();
@@ -135,11 +180,18 @@ public class GameInstance {
 		}
 		return BubbleList;
 	}
-
+	/*
+         *Passing a  object Level class
+         * @return object Level class
+         */
 	public Level getLevel() {
 		return level;
 	}
 
+	/*
+         *set a  object Level class
+
+         */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
@@ -153,5 +205,14 @@ public class GameInstance {
 
 	public ArrayList<BufferedImage> getImageList() {
 		return this.imageList;
+	}
+
+	/*
+         *Passing a  ArrayList with explosion image
+         * @return instantion ArrayList<BufferedImage>
+         */
+	public ArrayList<BufferedImage>getImageExplosionList()
+	{
+		return this.imageExplosionList;
 	}
 }

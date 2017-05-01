@@ -87,12 +87,13 @@ public class NewGameWindow extends JFrame implements ActionListener{
 
                     //Create new game, iniciation new game
                     gameWindow.getGameSpace().inctiationGame(Game);
-                    gameWindow.getGameSpace().start();
+
 
                     dispose();
                     this.dispose();
+                    gameWindow.getGameSpace().start();
 
-
+                    gameWindow.getViewPanel().start();
 
 
                 }
