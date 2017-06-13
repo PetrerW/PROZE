@@ -51,14 +51,23 @@ public class NewGameWindow extends JFrame implements ActionListener{
         pickUsernameLabel.setBounds(width/2-50 - 150,height/6, 150,30);
         add(pickUsernameLabel);
 
+        //Level choice options
         levelChoice.add("Easy");
         levelChoice.add("Medium");
         levelChoice.add("Hard");
+        
+        //Size of the choice component
         levelChoice.setBounds(width/2-50, height/3, 100, 30);
+        
+        //Add to the window
         add(levelChoice);
 
+        //Size of the label "Choose the level"
         chooseLevel.setBounds(width/2-50 - 100,height/3, 150,30);
+        
+        //Add the label to the window
         add(chooseLevel);
+        
         //gameWindow=new GameWindow();
         gameWindow=gameWindow_;
     }
@@ -80,8 +89,10 @@ public class NewGameWindow extends JFrame implements ActionListener{
                 else{
                     //Create new GameInstance
                     GameInstance Game = new GameInstance();
+                    
                     //Get username from fext field
-                    Game.appendUsername(textField.getText());
+                    Game.getUsername(textField.getText());
+                    
                     //Get level from choice bar
                     Game.getLevel().determineMaxColor(levelChoice.getSelectedItem());
 
@@ -91,10 +102,6 @@ public class NewGameWindow extends JFrame implements ActionListener{
 
                     dispose();
                     this.dispose();
-
-
-
-
                 }
 
             }

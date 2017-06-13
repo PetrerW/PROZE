@@ -54,6 +54,9 @@ public class GameInstance {
 		}
 
 	}
+	/*
+	 * A functions that read Image Explosion pictures from files
+	 */
 	public void readImageExplosionfromFile() {
 		String color;
 		int position;
@@ -180,7 +183,7 @@ public class GameInstance {
 	/*
 	 * Change username of the GameInstance
 	 */
-	public void appendUsername(String username) {
+	public void getUsername(String username) {
 		this.username = username;
 	}
 	
