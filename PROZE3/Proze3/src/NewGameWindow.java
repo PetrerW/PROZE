@@ -29,6 +29,7 @@ public class NewGameWindow extends JFrame implements ActionListener{
         this.setTitle(Config.packLanguage[1]);
 
         textField = new JTextField();
+        
         //TODO: Instead of "Enter your username" should go languageChoice[n] from Config class
         pickUsernameLabel = new JLabel("Enter your username: ");
         chooseLevel = new JLabel("Choose level:");
@@ -55,6 +56,7 @@ public class NewGameWindow extends JFrame implements ActionListener{
         levelChoice.add("Easy");
         levelChoice.add("Medium");
         levelChoice.add("Hard");
+        
         
         //Size of the choice component
         levelChoice.setBounds(width/2-50, height/3, 100, 30);
@@ -86,24 +88,29 @@ public class NewGameWindow extends JFrame implements ActionListener{
                 else if(textField.getText().contains("#") | textField.getText().contains("/")){
                     throw new Exception("Input String contains wrong characters");
                 }
-                else{
+                else {
                     //Create new GameInstance
                     GameInstance Game = new GameInstance();
+                    Level level = new Level();
                     
                     //Get username from text field
                     Game.getUsername(textField.getText());
                     
                     //Get level from choice bar
-                    Game.getLevel().determineMaxColor(levelChoice.getSelectedItem());
-
+                    level.determineMaxColor(levelChoice.getSelectedItem());
+                    level.determineHowHard(level.maxColor);
+                  
+                    //Set the level to the game instance
+                    Game.setLevel(level);
+                    
                     //Create new game, initiation new game
+                    gameWindow.getGameSpace().setGameInstance(Game);
                     gameWindow.getGameSpace().inctiationGame(Game);
                     gameWindow.getGameSpace().start();
 
                     dispose();
                     this.dispose();
                 }
-
             }
             catch(Exception exc){
                 if(exc.getMessage() == "Empty Username")

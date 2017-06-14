@@ -61,6 +61,7 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
 
 		//Game=gameInstance;
 		createBubbleList();
+		//createRandomBubbleList();
 		initiationMissle();
 		setPositionBubble();
 		//repaint();
@@ -108,8 +109,8 @@ public class GameSpace extends JPanel implements Runnable, MouseListener, MouseM
   		 */
 
 		BubbleList = Game.readFromFile(Config.configurationMap);
-		int maxColor = Game.getLevel().maxColor;
 
+		
 	}
 
 	public void paint(Graphics g) {
@@ -507,6 +508,7 @@ System.out.println(counter);
 						setInitiation();
 						setNextMissle();
 					}
+					
 					else
 					{
 						Missle.setPosition(BubbleList.get(i).getXPosition() - diameterx, BubbleList.get(i).getYPosition());
@@ -525,7 +527,7 @@ System.out.println(counter);
 	 * @param Bubble object, whose neighbours we're looking for
 	 * @return /*ArrayList<Integer> filled with indexes of neighbours in BubbleList
 	 */
-	public /*ArrayLst<Integer> */int[] getNeighborsIndexes(Bubble B){
+	public ArrayList<Integer> getNeighborsIndexes(Bubble B){
 		
 		//Index of the main bubble
 		int B_index = BubbleList.indexOf(B);
@@ -536,11 +538,10 @@ System.out.println(counter);
 		if(B_index == 0) //left-top
 		{
 			//Add an index to the return list
-			int indexes[] = {1};
+			//int indexes[] = {1};
 			IndexList.add(1);
 			
-			//return IndexList;
-			return indexes;
+			return IndexList;
 		}
 		if(B_index - capacity + 1 <= 0)  //top
 		{
@@ -549,10 +550,10 @@ System.out.println(counter);
 			IndexList.add(B_index + 1);
 			IndexList.add(B_index + capacity - 1);
 			IndexList.add(B_index + capacity);
-			int indexes[] = {B_index-1, B_index+1, B_index + capacity - 1, B_index + capacity};
+			//int indexes[] = {B_index-1, B_index+1, B_index + capacity - 1, B_index + capacity};
 			
-			//return IndexList;
-			return indexes;
+			return IndexList;
+			//return indexes;
 		}
 
 		if((B_index - 1)%(capacity-1) ==0 ) //left margin
@@ -563,11 +564,11 @@ System.out.println(counter);
 				IndexList.add(B_index - capacity);
 				IndexList.add(B_index + 1);
 				IndexList.add(B_index + capacity - 1);
-				int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index + 1, B_index + capacity -1,
-						B_index+capacity};
+				//int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index + 1, B_index + capacity -1,
+						//B_index+capacity};
 				
-				//return IndexList;
-				return indexes;
+				return IndexList;
+				//return indexes;
 			}
 			else{ //right row
 				
@@ -576,11 +577,11 @@ System.out.println(counter);
 				IndexList.add(B_index - capacity - 1);
 				IndexList.add(B_index +1);
 				IndexList.add(B_index + capacity);
-				int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index + 1, B_index + capacity,
-						B_index+capacity+1};
+				//int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index + 1, B_index + capacity,
+				//		B_index+capacity+1};
 				
-				//returnIndexList;
-				return indexes;
+				return IndexList;
+				//return indexes;
 			}
 
 		if((B_index - 1)%(capacity-1) == 0 ) //right margin
@@ -591,11 +592,11 @@ System.out.println(counter);
 				IndexList.add(B_index - capacity);
 				IndexList.add(B_index - 1);
 				IndexList.add(B_index + capacity - 1);
-				int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index - 1, B_index + capacity -1,
-						B_index+capacity};
+				//int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index - 1, B_index + capacity -1,
+				//		B_index+capacity};
 				
-				//return IndexList;
-				return indexes;
+				return IndexList;
+				//return indexes;
 			}
 			else{ //right row
 				
@@ -605,11 +606,11 @@ System.out.println(counter);
 				IndexList.add(B_index - 1);
 				IndexList.add(B_index + 1);
 				IndexList.add(B_index - capacity);
-				int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index - 1, B_index + 1, B_index + capacity,
-						B_index+capacity+1};
+				//int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index - 1, B_index + 1, B_index + capacity,
+				//		B_index+capacity+1};
 				
-				//return IndexList;
-				return indexes;
+				return IndexList;
+				//return indexes;
 			}
 
 		if((B_index/ capacity)%2 == 0){ // left row
@@ -622,11 +623,11 @@ System.out.println(counter);
 			IndexList.add(B_index + 1);
 			IndexList.add(B_index + capacity + 1);
 			
-			int indexes[] = {B_index - capacity - 1, B_index - capacity, B_index - 1,B_index, B_index + 1, B_index + capacity +1,
-					B_index+capacity};
+			//int indexes[] = {B_index - capacity - 1, B_index - capacity, B_index - 1,B_index, B_index + 1, B_index + capacity +1,
+			//		B_index+capacity};
 			
-			//return IndexList;
-			return indexes;
+			return IndexList;
+			//return indexes;
 		}
 
 		else { //if((B_index - B_index%capacity)/capacity%2 == 1) //right row
@@ -639,17 +640,17 @@ System.out.println(counter);
 			IndexList.add(B_index + 1);
 			IndexList.add(B_index + capacity);
 			
-			int indexes[] = {B_index - capacity, B_index - capacity + 1, B_index - 1,B_index, B_index + 1, B_index + capacity,
-					B_index+capacity-1};
+			//int indexes[] = {B_index - capacity, B_index - capacity + 1, B_index - 1,B_index, B_index + 1, B_index + capacity,
+			//		B_index+capacity-1};
 			
-			//return IndexList;
-			return indexes;
+			return IndexList;
+			//return indexes;
 		}
 	}
 	/*
 	 * @param int table with indexes of Bubbles to extinguish
 	 */
-	public void extinguishBubble(/*ArrayList<Integer>*/int indexes[]){
+	public void extinguishBubble(ArrayList<Integer> indexes){
 		int colorIndex = 0;
 		for(int i: indexes)
 		{
@@ -668,7 +669,7 @@ System.out.println(counter);
 			
 			try{
 				if(BubbleList.size()>i) {
-					BubbleList.get(i).img = Game.getImageExplosionList().get(colorIndex); //append explosion image
+					BubbleList.get(i).img = Game.getImageExplosionList().get(colorIndex); //get explosion image
 					demagedBubbles++; //counting points
 				}
 			}

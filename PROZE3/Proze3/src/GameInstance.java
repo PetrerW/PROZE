@@ -25,7 +25,6 @@ public class GameInstance {
 		setLevel(new Level(maxColor));
 	}
 
-
 	public void readImagefromFile() {
 		String color;
 		int position;
@@ -145,19 +144,34 @@ public class GameInstance {
 			FileInputStream fstream = new FileInputStream(f);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
+			
 			String strLine;
+			
+			//kindBubble starts from 0
 			int kindBubble;
 			//Read File Line By Line
 			while ((strLine = br.readLine()) != null) {
+				
 				//Determining position on the colorList
-				//kindBubble = Bubble.determineColorInt(Integer.parseInt(strLine));
-				kindBubble = Integer.parseInt(strLine);
+				kindBubble = Bubble.determineColorInt(strLine) - 1;
+				
 				//Adding new Bubble to the list with appropriate Color
-				if(kindBubble>0) {
-					BubbleList.add(new Bubble(imageList.get(kindBubble - 1)));
-					BubbleList.get(BubbleList.size()-1).color = strLine; //set color of added Bubble
+				if(kindBubble>=0) {
+					
+					//Taking difficulty level into account
+					if(kindBubble >= level.maxColor){
+						kindBubble = kindBubble%(level.maxColor);
+					}
+						
+					
+					//add new Bubble to the list
+					BubbleList.add(new Bubble(imageList.get(kindBubble)));
+					
+					//set color of added Bubble
 					BubbleList.get(BubbleList.size()-1).colorInt = kindBubble;
+					BubbleList.get(BubbleList.size()-1).color = Bubble.determineColor(kindBubble);
 				}
+				
 				else
 				{
 					BubbleList.add(null);

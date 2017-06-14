@@ -3,7 +3,10 @@ import java.util.ArrayList;
 /*
  * @author PetrerW
  * @version 12.04.2017
+ * 
+ * Class that holds Strings, files and images of Bubbles
  */
+
 public class ColorData {
 	public static ArrayList<File> colorFiles;
 	public static ArrayList<String> colorArray;

@@ -30,7 +30,7 @@ public class Bubble{
 	int colorInt;
 	//Localization on game field
 	int x,y;
-
+	
 	Bubble(){
 		img = new BufferedImage(1,1,1);
 		try {
