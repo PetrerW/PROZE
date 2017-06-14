@@ -523,62 +523,133 @@ System.out.println(counter);
 	/*
 	 * get indexes of Bubbles that are neighbors of a particular Bubble
 	 * @param Bubble object, whose neighbours we're looking for
-	 * @return int table filled with indexes of neighbours in BubbleList
+	 * @return /*ArrayList<Integer> filled with indexes of neighbours in BubbleList
 	 */
-	public int[] getNeighborsIndexes(Bubble B){
+	public /*ArrayLst<Integer> */int[] getNeighborsIndexes(Bubble B){
+		
+		//Index of the main bubble
 		int B_index = BubbleList.indexOf(B);
+		
+		//Return list of bubbles' indexes
+		ArrayList<Integer> IndexList = new ArrayList<Integer>();
 
 		if(B_index == 0) //left-top
 		{
+			//Add an index to the return list
 			int indexes[] = {1};
+			IndexList.add(1);
+			
+			//return IndexList;
 			return indexes;
 		}
 		if(B_index - capacity + 1 <= 0)  //top
 		{
+			//Add appropriate indexes to the list
+			IndexList.add(B_index - 1);
+			IndexList.add(B_index + 1);
+			IndexList.add(B_index + capacity - 1);
+			IndexList.add(B_index + capacity);
 			int indexes[] = {B_index-1, B_index+1, B_index + capacity - 1, B_index + capacity};
+			
+			//return IndexList;
 			return indexes;
 		}
 
 		if((B_index - 1)%(capacity-1) ==0 ) //left margin
 			if((B_index - B_index%capacity)/capacity%2 == 0){ // left row
+				
+				//Add appropriate indexes to the list
+				IndexList.add(B_index - capacity + 1);
+				IndexList.add(B_index - capacity);
+				IndexList.add(B_index + 1);
+				IndexList.add(B_index + capacity - 1);
 				int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index + 1, B_index + capacity -1,
 						B_index+capacity};
+				
+				//return IndexList;
 				return indexes;
 			}
 			else{ //right row
+				
+				//Add appropriate indexes to the list
+				IndexList.add(B_index - capacity);
+				IndexList.add(B_index - capacity - 1);
+				IndexList.add(B_index +1);
+				IndexList.add(B_index + capacity);
 				int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index + 1, B_index + capacity,
 						B_index+capacity+1};
+				
+				//returnIndexList;
 				return indexes;
 			}
 
 		if((B_index - 1)%(capacity-1) == 0 ) //right margin
 			if((B_index - B_index%capacity)/capacity%2 == 0){ // left row
+				
+				//Add appropriate indexes to the list
+				IndexList.add(B_index - capacity + 1);
+				IndexList.add(B_index - capacity);
+				IndexList.add(B_index - 1);
+				IndexList.add(B_index + capacity - 1);
 				int indexes[] = {B_index - capacity + 1, B_index - capacity, B_index - 1, B_index + capacity -1,
 						B_index+capacity};
+				
+				//return IndexList;
 				return indexes;
 			}
 			else{ //right row
+				
+				//Add appropriate indexes to the list
+				IndexList.add(B_index - capacity);
+				IndexList.add(B_index - capacity - 1);
+				IndexList.add(B_index - 1);
+				IndexList.add(B_index + 1);
+				IndexList.add(B_index - capacity);
 				int indexes[] = {B_index - capacity, B_index - capacity - 1, B_index - 1, B_index + 1, B_index + capacity,
 						B_index+capacity+1};
+				
+				//return IndexList;
 				return indexes;
 			}
 
 		if((B_index/ capacity)%2 == 0){ // left row
+			
+			//Add appropriate indexes to the list
+			IndexList.add(B_index - capacity - 1);
+			IndexList.add(B_index - capacity);
+			IndexList.add(B_index - 1);
+			IndexList.add(B_index);
+			IndexList.add(B_index + 1);
+			IndexList.add(B_index + capacity + 1);
+			
 			int indexes[] = {B_index - capacity - 1, B_index - capacity, B_index - 1,B_index, B_index + 1, B_index + capacity +1,
 					B_index+capacity};
+			
+			//return IndexList;
 			return indexes;
 		}
 
 		else { //if((B_index - B_index%capacity)/capacity%2 == 1) //right row
+			
+			//Add appropriate indexes to the list
+			IndexList.add(B_index - capacity);
+			IndexList.add(B_index - capacity + 1);
+			IndexList.add(B_index - 1);
+			IndexList.add(B_index);
+			IndexList.add(B_index + 1);
+			IndexList.add(B_index + capacity);
+			
 			int indexes[] = {B_index - capacity, B_index - capacity + 1, B_index - 1,B_index, B_index + 1, B_index + capacity,
 					B_index+capacity-1};
+			
+			//return IndexList;
 			return indexes;
 		}
 	}
 	/*
 	 * @param int table with indexes of Bubbles to extinguish
 	 */
-	public void extinguishBubble(int indexes[]){
+	public void extinguishBubble(/*ArrayList<Integer>*/int indexes[]){
 		int colorIndex = 0;
 		for(int i: indexes)
 		{
