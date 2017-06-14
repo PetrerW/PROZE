@@ -90,13 +90,13 @@ public class NewGameWindow extends JFrame implements ActionListener{
                     //Create new GameInstance
                     GameInstance Game = new GameInstance();
                     
-                    //Get username from fext field
+                    //Get username from text field
                     Game.getUsername(textField.getText());
                     
                     //Get level from choice bar
                     Game.getLevel().determineMaxColor(levelChoice.getSelectedItem());
 
-                    //Create new game, iniciation new game
+                    //Create new game, initiation new game
                     gameWindow.getGameSpace().inctiationGame(Game);
                     gameWindow.getGameSpace().start();
 

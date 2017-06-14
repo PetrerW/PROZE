@@ -4,10 +4,6 @@
 import java.io.File;
 import java.util.ArrayList;
 
-/*
- * class that holds files, Strings and images of exploding Bubbles
- * @see ColorData
- */
 public class ExplosionImageData {
     public static ArrayList<File> explosionFiles;
     public static ArrayList<String> explosionArray;

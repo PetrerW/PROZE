@@ -1,8 +1,6 @@
-#Ustawienia programu
-#Mon Apr 24 12:46:13 CEST 2017
-Point\ 1=10
-Nick\ 3=Rafal
-Nick\ 2=Monika
-Nick\ 1=karol
-Point\ 3=3
-Point\ 2=7
+ja
+10
+ty
+4
+on
+5
