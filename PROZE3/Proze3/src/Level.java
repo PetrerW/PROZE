@@ -48,23 +48,23 @@ public class Level {
 	public void determineMaxColor(String howHard){
 		if(howHard.contains("Hard"))
 			//6 different colors
-			maxColor = 5;
+			maxColor = 6;
 		else if(howHard.contains("Medium"))
 			//5 different colors (from 0 to 4)
-			maxColor = 4;
+			maxColor = 5;
 		else if(howHard.contains("Easy"))
-			maxColor = 3;
+			maxColor = 4;
 		else
-			maxColor = 3;
+			maxColor = 4;
 	}
 	//unused
 	public void determineHowHard(int maxColor){
-		if(maxColor ==5)
+		if(maxColor ==6)
 			//6 different colors
 			howHard = "Hard";
-		else if(maxColor == 4)
+		else if(maxColor == 5)
 			howHard = "Meduim";
-		else if(maxColor ==3)
+		else if(maxColor ==4)
 			howHard = "Easy";
 		else
 			howHard = "Easy";

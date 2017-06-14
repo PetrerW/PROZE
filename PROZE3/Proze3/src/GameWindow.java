@@ -1,6 +1,6 @@
 /**
  * @author Daniel, PetrerW
- * @version 2017-04-15.
+ * @version 2017-06-14.
  */
 
 
@@ -20,7 +20,7 @@ public class GameWindow extends JFrame implements ActionListener {
     private JFrame languageWindow;
     private JMenuBar menubar;
     private JMenu file, help, view;
-    private JMenuItem newGame, ranking,  end, save, language, setDefaultView;
+    private JMenuItem newGame, ranking,  end, save, language, setDefaultView, connectWithServer;
     //final private JToolBar toolbar;
     private JButton pause_start, endCurrentGame;
     private GameSpace space;
@@ -35,15 +35,15 @@ public class GameWindow extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-         view_panel=new ViewPanel();
-         space=getGameSpace();
+        view_panel=new ViewPanel();
+        space=getGameSpace();
         menubar=new JMenuBar();
         file=new JMenu(Config.packLanguage[0]);
         help= new JMenu(Config.packLanguage[8]);
         view = new JMenu("Widok");
 
         //TODO: add its text to be read from Config data
-        setDefaultView = new JMenuItem("Ustaw poczÂ¹tkowy widok");
+        setDefaultView = new JMenuItem("Ustaw pocz¹tkowy widok");
         newGame=new JMenuItem(Config.packLanguage[1]);
 
         save= new JMenuItem(Config.packLanguage[3]);
@@ -51,25 +51,32 @@ public class GameWindow extends JFrame implements ActionListener {
 
         language=new JMenuItem( Config.packLanguage[6]);
         end=new JMenuItem(Config.packLanguage[7]);
+        
+        connectWithServer = new JMenuItem("Po³¹cz z serwerem");
 
+        //Main window as listener for all menu items
         newGame.addActionListener(this);
         ranking.addActionListener(this);
         language.addActionListener(this);
+        connectWithServer.addActionListener(this);
         end.addActionListener(this);
 
         file.add(newGame);
         file.add(save);
         file.add(ranking);
-
+        file.add(connectWithServer);
         //file.add(language);
         file.addSeparator();
         file.add(end);
 
+
         view.add(setDefaultView);
 
+        //Adding menu elements (top-left)
         menubar.add(file);
         menubar.add(help);
         menubar.add(view);
+        //menubar.add(connecting);
 
         setJMenuBar(menubar);
 
@@ -119,7 +126,13 @@ public class GameWindow extends JFrame implements ActionListener {
             NewGameWindow nowaGra = new NewGameWindow(this);
             nowaGra.setVisible(true);
         }
-        else  if (source == ranking) {
+        
+        else if(source == connectWithServer){
+        	ServerConnectWindow newConnection = new ServerConnectWindow(this);
+        	newConnection.setVisible(true);
+        }
+        
+        else if (source == ranking) {
 
             String[] scores = Config.bestRanking();
             if (scores == null) {
@@ -133,18 +146,15 @@ public class GameWindow extends JFrame implements ActionListener {
                     if (scores[2*i]!= null)
                         message[i] = (i + 1) + "."+fill(Integer.toString(i+1),3," " ) + scores[2 * i] + fill("", 25, " ") + "   "
                                 + scores[2 * i + 1];
-
                 }
-
+                
                 JOptionPane.showMessageDialog(null, message,
-                        Config.packLanguage[11], JOptionPane.PLAIN_MESSAGE);
-
-
+                Config.packLanguage[11], JOptionPane.PLAIN_MESSAGE);
             }
 
 
         }
-        else  if(source==language)
+        else if(source==language)
         {
 
             languageWindow=new JFrame(Config.packLanguage[12]);
@@ -176,8 +186,6 @@ public class GameWindow extends JFrame implements ActionListener {
             //Set default size
             setSize(getPreferredSize());
         }
-
-
     }
 
     /*
