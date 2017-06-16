@@ -15,3 +15,6 @@ Wybierz jezyk
 Liczba punktow:
 Nastepna
 Poziom
+Gracz
+Gratulacje!!! Przeszedles do kolejnego poziomu
+Po³¹cz z serwerem
