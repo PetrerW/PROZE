@@ -15,3 +15,6 @@ Choose language
 Scores
 Next
 Level
+Player
+Congratulation!!! You go to up level
+Connect with server

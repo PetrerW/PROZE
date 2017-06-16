@@ -1,8 +1,22 @@
-#Ustawienia programu
-#Mon Apr 24 12:46:13 CEST 2017
-Point\ 1=10
-Nick\ 3=Rafal
-Nick\ 1=Monika
-Nick\ 2=karol
-Point\ 3=3
-Point\ 2=7
+#Ustawienia
+#Fri Jun 16 17:59:19 CEST 2017
+Point\ 7=66
+Point\ 6=74
+Point\ 5=288
+Point\ 4=312
+Point\ 3=316
+Point\ 2=348
+Point\ 1=752
+Nick\ 10=karol
+Point\ 10=10
+Nick\ 9=daniiel
+Nick\ 8=fd
+Nick\ 7=tete
+Nick\ 6=farka
+Nick\ 5=piotr
+Nick\ 4=gg
+Nick\ 3=tete
+Nick\ 2=tete
+Point\ 9=32
+Nick\ 1=tete
+Point\ 8=36

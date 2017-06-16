@@ -15,7 +15,7 @@ public class Bubble{
 	//A representing picture
 	BufferedImage img;
 	//Its position in the list
-	 private int positionX,positionY;
+	 private double positionX,positionY;
 	//Color
 	/*
 	 * y - yellow
@@ -26,11 +26,11 @@ public class Bubble{
 	 * m - multicolor
 	 * o - orange
 	 */
-	String color;
-	int colorInt;
+private	String color;
+private	int colorInt;
 	//Localization on game field
 	int x,y;
-	
+
 	Bubble(){
 		img = new BufferedImage(1,1,1);
 		try {
@@ -92,6 +92,7 @@ public class Bubble{
 			sb.delete(sb.indexOf(".png"), sb.indexOf(".png")+ 4/*Length of ".png" */);
 		}
 		this.color = sb.toString();
+		colorInt=determineColorInt(sb.toString());
 		positionX = 0;
 		positionY=0;
 		try{
@@ -186,15 +187,45 @@ public class Bubble{
 	}
 	public int getXPosition()
 	{
-		return positionX;
+		return (int)positionX;
 	}
 	public int getYPosition()
+	{
+		return (int)positionY;
+	}
+	public double getDoubleXPosition()
+	{
+		return positionX;
+	}
+	public double getDoubleYPosition()
 	{
 		return positionY;
 	}
 	public void setPosition(int x, int y)
 	{
+		this.positionX=(double)x;
+		this.positionY=(double)y;
+	}
+
+	public void setPosition(double x, double y)
+	{
 		this.positionX=x;
 		this.positionY=y;
+	}
+	public int getColorInt()
+	{
+		return colorInt;
+	}
+	public String getColorString()
+	{
+		return color;
+	}
+	public void setColorInt(int color)
+	{
+		colorInt=color;
+	}
+	public void setColorString(String color)
+	{
+		this.color=color;
 	}
 }
