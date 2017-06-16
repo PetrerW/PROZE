@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class GameInstance {
 	private String username;
@@ -25,9 +26,6 @@ public class GameInstance {
 		setLevel(new Level(maxColor));
 	}
 
-	/*
-	 * Create list of bubble Image
-	 */
 
 	public void readImagefromFile() {
 		String color;
@@ -57,8 +55,9 @@ public class GameInstance {
 		}
 
 	}
+
 	/*
-	* Create list of explosion image
+	 * A functions that read Image Explosion pictures from files
 	 */
 	public void readImageExplosionfromFile() {
 		String color;
@@ -95,7 +94,7 @@ public class GameInstance {
 			try {
 				PrintWriter writer = new PrintWriter("MapConfig.txt", "UTF-8");
 				for (int i = 0; i < BubbleList.size(); i++) {
-					writer.println(BubbleList.get(i).color);
+					writer.println(BubbleList.get(i).getColorInt());
 				}
 				writer.close();
 			} catch (FileNotFoundException e) {
@@ -107,11 +106,7 @@ public class GameInstance {
 			}
 		}
 	}
-	/*
-         *Save information about type Bubble kept
-         * @param ArrayList with type of bubble color
 
-         */
 	public void writeToFileString(ArrayList<String> ColorList) {
 		//If the directory doesn't exist...
 		if (!new File("/Graphics").exists())
@@ -137,11 +132,7 @@ public class GameInstance {
 		}
 	}
 
-	/*
-	 *Create BubbleList to display on the game
-	 * @param String file name from which Bubble is loaded
-	 * @return BubbleList with object type Bubble
-	 */
+
 	//TODO Add reading from directory. Actually works if config files are in the project directory
 	public ArrayList<Bubble> readFromFile(String f) {
 		ArrayList<Bubble> BubbleList = new ArrayList<>();
@@ -164,11 +155,11 @@ public class GameInstance {
 				//kindBubble = Bubble.determineColorInt(Integer.parseInt(strLine));
 				kindBubble = Integer.parseInt(strLine);
 				//Adding new Bubble to the list with appropriate Color
-				if(kindBubble>0) {
+				if (kindBubble > 0) {
 					BubbleList.add(new Bubble(imageList.get(kindBubble - 1)));
-				}
-				else
-				{
+					BubbleList.get(BubbleList.size() - 1).setColorString(strLine); //set color of added Bubble
+					BubbleList.get(BubbleList.size() - 1).setColorInt(kindBubble);
+				} else {
 					BubbleList.add(null);
 				}
 			}
@@ -180,18 +171,11 @@ public class GameInstance {
 		}
 		return BubbleList;
 	}
-	/*
-         *Passing a  object Level class
-         * @return object Level class
-         */
+
 	public Level getLevel() {
 		return level;
 	}
 
-	/*
-         *set a  object Level class
-
-         */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
@@ -199,8 +183,12 @@ public class GameInstance {
 	/*
 	 * Change username of the GameInstance
 	 */
-	public void appendUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getUsername() {
+		return this.username;
 	}
 
 	public ArrayList<BufferedImage> getImageList() {
@@ -211,8 +199,75 @@ public class GameInstance {
          *Passing a  ArrayList with explosion image
          * @return instantion ArrayList<BufferedImage>
          */
-	public ArrayList<BufferedImage>getImageExplosionList()
-	{
+	public ArrayList<BufferedImage> getImageExplosionList() {
 		return this.imageExplosionList;
 	}
+
+
+	public void writeBestRanking(ArrayList<String> nick, ArrayList<String> points) {
+
+
+
+		Properties ranking = new Properties();
+
+		try {
+
+
+			FileOutputStream out = new FileOutputStream(Config.bestRankingPath, true);
+
+			ranking.load(new FileInputStream(Config.bestRankingPath));
+
+			PrintWriter writer = new PrintWriter(Config.bestRankingPath);
+			writer.print("");
+			writer.close();
+
+			for (int i = 1; i < 11; i++) {
+				if (nick.get(i - 1) != null) {
+					ranking.setProperty("Nick " + i, nick.get(i - 1));
+					ranking.setProperty("Point " + i, points.get(i - 1));
+				}
+			}
+			ranking.store(out,"Ustawienia");
+
+
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
+
+	}
+	public String[] bestRanking() {
+
+
+		Properties bestlist=new Properties();
+
+		try {
+
+			bestlist.load(new FileInputStream(Config.bestRankingPath));
+
+
+		} catch (IOException e) {
+			//JOptionPane.showMessageDialog(null,"Error");
+
+		}
+
+
+		String[] strLine = new String[20];
+		for(int i=1; i<11; i++) {
+
+			strLine[2*i-2] = bestlist.getProperty("Nick "+(i));
+			System.out.println(strLine[2*i-2]);
+			strLine[2*i-1]=bestlist.getProperty("Point "+i);
+		}
+
+
+		return strLine;
+
+	}
 }
+
+
+
+
+
+

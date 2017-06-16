@@ -81,9 +81,11 @@ public class NewGameWindow extends JFrame implements ActionListener{
                     //Create new GameInstance
                     GameInstance Game = new GameInstance();
                     //Get username from fext field
-                    Game.appendUsername(textField.getText());
+                    Game.setUsername(textField.getText());
                     //Get level from choice bar
                     Game.getLevel().determineMaxColor(levelChoice.getSelectedItem());
+                    //Set level next game in instance of GameInstance
+                    Game.getLevel().setHowHard(levelChoice.getSelectedItem());
 
                     //Create new game, iniciation new game
                     gameWindow.getGameSpace().inctiationGame(Game);
@@ -92,6 +94,7 @@ public class NewGameWindow extends JFrame implements ActionListener{
                     dispose();
                     this.dispose();
                     gameWindow.getGameSpace().start();
+                    gameWindow.getGameSpace().setPause(false);
 
                     gameWindow.getViewPanel().start();
 

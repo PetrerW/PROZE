@@ -13,18 +13,18 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Properties;
 
 
 public class GameWindow extends JFrame implements ActionListener {
 
     private JFrame languageWindow;
     private JMenuBar menubar;
-    private JMenu file, help, view;
-    private JMenuItem newGame, ranking,  end, save, language, setDefaultView;
-    //final private JToolBar toolbar;
-    private JButton pause_start, endCurrentGame;
+    private JMenu file, help;
+    private JMenuItem newGame, ranking,  end, save, language, connectWithServer;
     private GameSpace space;
     ViewPanel view_panel;
+    private boolean soundOn=true;
 
 
     public GameWindow()
@@ -40,36 +40,32 @@ public class GameWindow extends JFrame implements ActionListener {
         menubar=new JMenuBar();
         file=new JMenu(Config.packLanguage[0]);
         help= new JMenu(Config.packLanguage[8]);
-        view = new JMenu("Widok");
-
-        //TODO: add its text to be read from Config data
-        setDefaultView = new JMenuItem("Ustaw pocz¹tkowy widok");
         newGame=new JMenuItem(Config.packLanguage[1]);
-
         save= new JMenuItem(Config.packLanguage[3]);
         ranking=new JMenuItem(Config.packLanguage[4]);
-
         language=new JMenuItem( Config.packLanguage[6]);
         end=new JMenuItem(Config.packLanguage[7]);
+        connectWithServer = new JMenuItem(Config.packLanguage[19]);
 
         newGame.addActionListener(this);
         ranking.addActionListener(this);
         language.addActionListener(this);
         end.addActionListener(this);
+        connectWithServer.addActionListener(this);
 
         file.add(newGame);
         file.add(save);
         file.add(ranking);
-
+        file.add(connectWithServer);
         //file.add(language);
         file.addSeparator();
         file.add(end);
 
-        view.add(setDefaultView);
+
 
         menubar.add(file);
         menubar.add(help);
-        menubar.add(view);
+
 
         setJMenuBar(menubar);
 
@@ -118,10 +114,14 @@ public class GameWindow extends JFrame implements ActionListener {
         if(source==newGame) {
             NewGameWindow nowaGra = new NewGameWindow(this);
             nowaGra.setVisible(true);
+        } else if(source == connectWithServer){
+
+            ServerConnectWindow newConnection = new ServerConnectWindow(this);
+            newConnection.setVisible(true);
         }
         else  if (source == ranking) {
 
-            String[] scores = Config.bestRanking();
+            String[] scores = bestRanking();
             if (scores == null) {
               /*  JOptionPane.showMessageDialog(null, Config.language[23]
                                 + "!", Config.language[9],
@@ -171,11 +171,7 @@ public class GameWindow extends JFrame implements ActionListener {
         {
             dispose();
         }
-        else if(source == setDefaultView){
-            //TODO: doesn't work at all
-            //Set default size
-            setSize(getPreferredSize());
-        }
+
 
 
     }
@@ -188,5 +184,33 @@ public class GameWindow extends JFrame implements ActionListener {
     }
     public ViewPanel getViewPanel(){
         return this.view_panel;
+    }
+    public String[] bestRanking() {
+
+
+        Properties bestlist=new Properties();
+
+        try {
+
+            bestlist.load(new FileInputStream(Config.bestRankingPath));
+
+
+        } catch (IOException e) {
+            //JOptionPane.showMessageDialog(null,"Error");
+
+        }
+
+
+        String[] strLine = new String[20];
+        for(int i=1; i<11; i++) {
+
+            strLine[2*i-2] = bestlist.getProperty("Nick "+(i));
+            System.out.println(strLine[2*i-2]);
+            strLine[2*i-1]=bestlist.getProperty("Point "+i);
+        }
+
+
+        return strLine;
+
     }
 }

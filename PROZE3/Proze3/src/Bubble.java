@@ -26,8 +26,8 @@ public class Bubble{
 	 * m - multicolor
 	 * o - orange
 	 */
-	String color;
-	int colorInt;
+private	String color;
+private	int colorInt;
 	//Localization on game field
 	int x,y;
 
@@ -92,6 +92,7 @@ public class Bubble{
 			sb.delete(sb.indexOf(".png"), sb.indexOf(".png")+ 4/*Length of ".png" */);
 		}
 		this.color = sb.toString();
+		colorInt=determineColorInt(sb.toString());
 		positionX = 0;
 		positionY=0;
 		try{
@@ -210,5 +211,21 @@ public class Bubble{
 	{
 		this.positionX=x;
 		this.positionY=y;
+	}
+	public int getColorInt()
+	{
+		return colorInt;
+	}
+	public String getColorString()
+	{
+		return color;
+	}
+	public void setColorInt(int color)
+	{
+		colorInt=color;
+	}
+	public void setColorString(String color)
+	{
+		this.color=color;
 	}
 }
