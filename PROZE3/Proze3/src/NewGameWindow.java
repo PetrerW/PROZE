@@ -29,7 +29,6 @@ public class NewGameWindow extends JFrame implements ActionListener{
         this.setTitle(Config.packLanguage[1]);
 
         textField = new JTextField();
-        
         //TODO: Instead of "Enter your username" should go languageChoice[n] from Config class
         pickUsernameLabel = new JLabel("Enter your username: ");
         chooseLevel = new JLabel("Choose level:");
@@ -52,24 +51,14 @@ public class NewGameWindow extends JFrame implements ActionListener{
         pickUsernameLabel.setBounds(width/2-50 - 150,height/6, 150,30);
         add(pickUsernameLabel);
 
-        //Level choice options
         levelChoice.add("Easy");
         levelChoice.add("Medium");
         levelChoice.add("Hard");
-        
-        
-        //Size of the choice component
         levelChoice.setBounds(width/2-50, height/3, 100, 30);
-        
-        //Add to the window
         add(levelChoice);
 
-        //Size of the label "Choose the level"
         chooseLevel.setBounds(width/2-50 - 100,height/3, 150,30);
-        
-        //Add the label to the window
         add(chooseLevel);
-        
         //gameWindow=new GameWindow();
         gameWindow=gameWindow_;
     }
@@ -88,29 +77,30 @@ public class NewGameWindow extends JFrame implements ActionListener{
                 else if(textField.getText().contains("#") | textField.getText().contains("/")){
                     throw new Exception("Input String contains wrong characters");
                 }
-                else {
+                else{
                     //Create new GameInstance
                     GameInstance Game = new GameInstance();
-                    Level level = new Level();
-                    
-                    //Get username from text field
-                    Game.getUsername(textField.getText());
-                    
+                    //Get username from fext field
+                    Game.setUsername(textField.getText());
                     //Get level from choice bar
-                    level.determineMaxColor(levelChoice.getSelectedItem());
-                    level.determineHowHard(level.maxColor);
-                  
-                    //Set the level to the game instance
-                    Game.setLevel(level);
-                    
-                    //Create new game, initiation new game
-                    gameWindow.getGameSpace().setGameInstance(Game);
+                    Game.getLevel().determineMaxColor(levelChoice.getSelectedItem());
+                    //Set level next game in instance of GameInstance
+                    Game.getLevel().setHowHard(levelChoice.getSelectedItem());
+
+                    //Create new game, iniciation new game
                     gameWindow.getGameSpace().inctiationGame(Game);
-                    gameWindow.getGameSpace().start();
+
 
                     dispose();
                     this.dispose();
+                    gameWindow.getGameSpace().start();
+                    gameWindow.getGameSpace().setPause(false);
+
+                    gameWindow.getViewPanel().start();
+
+
                 }
+
             }
             catch(Exception exc){
                 if(exc.getMessage() == "Empty Username")

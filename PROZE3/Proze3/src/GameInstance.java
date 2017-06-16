@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class GameInstance {
 	private String username;
@@ -24,6 +25,7 @@ public class GameInstance {
 	GameInstance(int maxColor) {
 		setLevel(new Level(maxColor));
 	}
+
 
 	public void readImagefromFile() {
 		String color;
@@ -53,6 +55,7 @@ public class GameInstance {
 		}
 
 	}
+
 	/*
 	 * A functions that read Image Explosion pictures from files
 	 */
@@ -91,7 +94,7 @@ public class GameInstance {
 			try {
 				PrintWriter writer = new PrintWriter("MapConfig.txt", "UTF-8");
 				for (int i = 0; i < BubbleList.size(); i++) {
-					writer.println(BubbleList.get(i).color);
+					writer.println(BubbleList.get(i).getColorInt());
 				}
 				writer.close();
 			} catch (FileNotFoundException e) {
@@ -144,36 +147,19 @@ public class GameInstance {
 			FileInputStream fstream = new FileInputStream(f);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
-			
 			String strLine;
-			
-			//kindBubble starts from 0
 			int kindBubble;
 			//Read File Line By Line
 			while ((strLine = br.readLine()) != null) {
-				
 				//Determining position on the colorList
-				kindBubble = Bubble.determineColorInt(strLine) - 1;
-				
+				//kindBubble = Bubble.determineColorInt(Integer.parseInt(strLine));
+				kindBubble = Integer.parseInt(strLine);
 				//Adding new Bubble to the list with appropriate Color
-				if(kindBubble>=0) {
-					
-					//Taking difficulty level into account
-					if(kindBubble >= level.maxColor){
-						kindBubble = kindBubble%(level.maxColor);
-					}
-						
-					
-					//add new Bubble to the list
-					BubbleList.add(new Bubble(imageList.get(kindBubble)));
-					
-					//set color of added Bubble
-					BubbleList.get(BubbleList.size()-1).colorInt = kindBubble;
-					BubbleList.get(BubbleList.size()-1).color = Bubble.determineColor(kindBubble);
-				}
-				
-				else
-				{
+				if (kindBubble > 0) {
+					BubbleList.add(new Bubble(imageList.get(kindBubble - 1)));
+					BubbleList.get(BubbleList.size() - 1).setColorString(strLine); //set color of added Bubble
+					BubbleList.get(BubbleList.size() - 1).setColorInt(kindBubble);
+				} else {
 					BubbleList.add(null);
 				}
 			}
@@ -197,12 +183,11 @@ public class GameInstance {
 	/*
 	 * Change username of the GameInstance
 	 */
-	public void getUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	public String getUsername()
-	{
+
+	public String getUsername() {
 		return this.username;
 	}
 
@@ -210,8 +195,79 @@ public class GameInstance {
 		return this.imageList;
 	}
 
-	public ArrayList<BufferedImage>getImageExplosionList()
-	{
+	/*
+         *Passing a  ArrayList with explosion image
+         * @return instantion ArrayList<BufferedImage>
+         */
+	public ArrayList<BufferedImage> getImageExplosionList() {
 		return this.imageExplosionList;
 	}
+
+
+	public void writeBestRanking(ArrayList<String> nick, ArrayList<String> points) {
+
+
+
+		Properties ranking = new Properties();
+
+		try {
+
+
+			FileOutputStream out = new FileOutputStream(Config.bestRankingPath, true);
+
+			ranking.load(new FileInputStream(Config.bestRankingPath));
+
+			PrintWriter writer = new PrintWriter(Config.bestRankingPath);
+			writer.print("");
+			writer.close();
+
+			for (int i = 1; i < 11; i++) {
+				if (nick.get(i - 1) != null) {
+					ranking.setProperty("Nick " + i, nick.get(i - 1));
+					ranking.setProperty("Point " + i, points.get(i - 1));
+				}
+			}
+			ranking.store(out,"Ustawienia");
+
+
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
+
+	}
+	public String[] bestRanking() {
+
+
+		Properties bestlist=new Properties();
+
+		try {
+
+			bestlist.load(new FileInputStream(Config.bestRankingPath));
+
+
+		} catch (IOException e) {
+			//JOptionPane.showMessageDialog(null,"Error");
+
+		}
+
+
+		String[] strLine = new String[20];
+		for(int i=1; i<11; i++) {
+
+			strLine[2*i-2] = bestlist.getProperty("Nick "+(i));
+			System.out.println(strLine[2*i-2]);
+			strLine[2*i-1]=bestlist.getProperty("Point "+i);
+		}
+
+
+		return strLine;
+
+	}
 }
+
+
+
+
+
+

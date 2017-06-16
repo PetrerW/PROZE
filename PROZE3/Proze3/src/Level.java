@@ -53,7 +53,7 @@ public class Level {
 			//5 different colors (from 0 to 4)
 			maxColor = 5;
 		else if(howHard.contains("Easy"))
-			maxColor = 4;
+			maxColor = 5;
 		else
 			maxColor = 4;
 	}
@@ -64,7 +64,7 @@ public class Level {
 			howHard = "Hard";
 		else if(maxColor == 5)
 			howHard = "Meduim";
-		else if(maxColor ==4)
+		else if(maxColor ==5)
 			howHard = "Easy";
 		else
 			howHard = "Easy";
@@ -94,5 +94,12 @@ public class Level {
 			e.printStackTrace();
 		}
 	}
-
+public void setHowHard(String level)
+	{
+		this.howHard=level;
+	}
+	public String getHowHard()
+	{
+		return howHard;
+	}
 }

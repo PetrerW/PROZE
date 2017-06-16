@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Properties;
  */
 public class Config {
 
-    public static String[] packLanguage = new String[19];
+    public static String[] packLanguage = new String[21];
     public static int[] sizeChoice;
     public static int[] sizeButton;
     public static int[] sizeLabel;
@@ -20,17 +21,28 @@ public class Config {
     public static String bestRankingPath = "src/bestRanking.txt";
     public static String[] standardButton = {"OK", "Anuluj"};
     public static String configurationPath = "config1.txt";
-    public static String configurationMap = "MapConfig.txt";
+    public static String configurationMapHard = "MapConfig.txt";
+    public static String configurationMapMedium = "MediumMap.txt";
+    public static String configurationMapEasy = "EasyMap.txt";
     public static int[] defaultSizeChoice = {150, 30};
     public static int[] defaultSizeButton = {75, 25};
     public static int[] defaultSizeLabel = {150, 40};
     public static int[] defaultFontLabel = {12, 11};
+    public static File fileSoundExplosion= new File("Sound/bomb_explosion.wav");
+
 
     private static Properties settings;
+
+    public Config()
+    {
+
+    }
 
     static {
 
         readConfiguration();
+        //levelControl();
+
 
         sizeChoice = tmp("Choice width","Choice height");
         sizeButton = tmp("Button width","Button height");
@@ -51,7 +63,7 @@ public class Config {
 
         } catch (IOException e) {
             //JOptionPane.showMessageDialog(null,"Error");
-        	System.out.println("Config.bestRanking()");
+
         }
 
 
@@ -67,6 +79,8 @@ public class Config {
         return strLine;
 
     }
+
+
 
 
     public static void language(String plik) {
@@ -152,4 +166,6 @@ public class Config {
 
         }
     }
+
+
 }

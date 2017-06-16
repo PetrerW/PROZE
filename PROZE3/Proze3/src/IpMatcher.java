@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 /*
  * @author PetrerW
- * @version 14.06.2017
+ * @version 15.06.2017
  * 
  * A class that checks if the IP address matches the IPv4 pattern
  */
