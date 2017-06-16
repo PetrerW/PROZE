@@ -16,6 +16,15 @@ public class IpMatcher {
 		//empty
 	}
 	
+	//Check if String correctly describes IP address
+	public static boolean isValidIP(String ip){
+		
+		Pattern pattern = Pattern.compile(ClientRequestMatcher.IPpattern);
+		Matcher matcher = pattern.matcher(ip);
+		
+		return matcher.matches();
+	}
+	
 	/*
 	 * @param ip is a string that represents an IP address
 	 * @return true if IP address is correct, false otherwise
@@ -38,7 +47,8 @@ public class IpMatcher {
 		try{
 			//An IP address pattern
 			Pattern IpPattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$");
-		
+			//Pattern IpPattern = Pattern.compile("get_Level [1-3] @ [0-9]+");
+			
 			//Does IP address match the pattern?
 			Matcher matcher = IpPattern.matcher(ip);
 			
@@ -46,8 +56,10 @@ public class IpMatcher {
 			if(matcher.matches()){
 				return new returnInfo(matcher.matches(), "Success"); 
 			}
-			else
+			else{
 				return new returnInfo(matcher.matches(), "Error reading IP address. ");
+			}
+				
 
 			
 		}catch(PatternSyntaxException ex){

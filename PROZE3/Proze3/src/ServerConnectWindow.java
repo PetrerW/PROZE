@@ -80,6 +80,9 @@ public class ServerConnectWindow extends JFrame implements ActionListener {
 				if(Result.isMatched() == false){
 					throw new Exception(Result.getMessage());
 				}
+				else if(Result.isMatched() == true){
+					this.dispose();
+				}
 				
 			}catch(Exception e){
 				String IpInfo =  new String("A correct IP address has the form: (xxx.xxx.xxx.xxx), where xxx is a number from 000 to 255");

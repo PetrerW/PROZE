@@ -51,7 +51,7 @@ public class Config {
 
         } catch (IOException e) {
             //JOptionPane.showMessageDialog(null,"Error");
-
+        	System.out.println("Config.bestRanking()");
         }
 
 
