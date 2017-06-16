@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -17,11 +18,64 @@ import java.util.regex.Pattern;
  */
 
 public class Server {
+	private int portNumber;
 	private Level level;
 	private ArrayList<String> Map;
 	private ArrayList<String> ClientsIP;
 	private String BestRanking;
 	private static String[] MapDirectory = {"Map 1.txt", "Map 2.txt", "Map 3.txt"};
+	ClientRequestMatcher clientRequestMatcher;
+	
+	Server(){
+		portNumber = 27272;
+		Map = new ArrayList<>();
+		ClientsIP = new ArrayList<>();
+		//clientRequestMatcher = new ClientRequestMatcher();
+	}
+	
+	public void start(){
+		
+		try{
+			//Create a server socket in port No. portNumber
+			ServerSocket S1 = new ServerSocket(portNumber);
+			
+			//accept() Listens for the connection made by socket S1 and accepts it
+			Socket SS = S1.accept(); 
+			
+			//Create a scanner to read from an input stream of socket SS
+			Scanner serverScanner = new Scanner(SS.getInputStream());
+			
+			String Message;
+			String line;
+			
+			//if((line = serverScanner.nextLine()) == "PROZE_PROTOCOL"){
+				//Generate server's response
+				Message = this.decide(serverScanner);
+				
+				//Create a PrintStream to write to Client
+				PrintStream serverPS = new PrintStream(SS.getOutputStream());
+				
+				//Send message to the client
+				serverPS.println(Message);
+				
+				//probe
+				System.out.println(Message);
+			//}
+			
+		}catch(Exception e){
+			System.err.println(e.getMessage() + " (Server) " );
+		}
+	}
+	
+	//Returns port number used by server
+	public int getportNumber(){
+		return this.portNumber;
+	}
+	
+	//set new port number used by the server
+	public void setportNumber(int newNumber){
+		this.portNumber = newNumber;
+	}
 	
 	//a function that reads BOARD from file and makes it ready to send
 	private String readBOARD(int lvl){
@@ -128,59 +182,50 @@ public class Server {
 	
 	
 	//Function that decides what to do on the basis of a message from a client
-	private String decide(Scanner scanner){
+	public String decide(Scanner scanner){
 		
 		String line; 
 		Pattern pattern;
 		Matcher matcher;
-		
-		for(int i = 0; i<ClientRequestMatcher.patterns.size(); i++){
-			pattern = ClientRequestMatcher.patterns.get(i);
-			line = scanner.nextLine();
-			matcher = pattern.matcher(line);
-			
-			//handle command depending on pattern match
-			if(matcher.matches()){
-				switch(i){
-				case 1:
-					//handle LOGIN
-					return handleLogin(scanner.nextLine());
-				case 2:
-					//handle get_Level
-					
-				case 3:
-					//handle get_best_ranking
-				case 4:
-					//handle set_player_result
-				case 5:
-					//handle logout
-				default:
-					//send error notification (wrong input data)
-						
-				}
-			}
-		}
-		return null;
-	}
-	
-	public static void main(String args[]){
 		try{
-			//Create a server socket in port No 27272
-			ServerSocket S1 = new ServerSocket(27272);
-			
-			//accept() Listens for the connection made by socket S1 and accepts it
-			Socket SS = S1.accept(); 
-			
-			//Create a scanner to read from an input stream of socket SS
-			Scanner serverScanner = new Scanner(SS.getInputStream());
-			
-			String Message;
-			
-			if(serverScanner.nextLine() == "PROZE_PROTOCOL"){
-				Message = decide(serverScanner);
-			}
+			for(int i = 0; i<ClientRequestMatcher.patterns.size(); i++){
+				if(ClientRequestMatcher.patterns == null){
+					throw new Exception("ClientRequestMatcher.patterns.get(i) = null");
+				}
+				pattern = ClientRequestMatcher.patterns.get(i);
+				System.out.println(pattern.toString());
+				line = scanner.nextLine();
+				System.out.println(line);
+				matcher = pattern.matcher(line);
+				
+				//handle command depending on pattern match
+				if(matcher.matches()){
+					switch(i){
+					case 0:
+						//handle LOGIN
+						String Message = this.handleLogin(line);
+						System.out.println(Message);
+						return Message;
+					case 1:
+						//handle get_Level
+						
+					case 2:
+						//handle get_best_ranking
+					case 3:
+						//handle set_player_result
+					case 4:
+						//handle logout
+					default:
+						//send error notification (wrong input data)
+							
+					}//switch
+				}//if
+				else 
+					return "Error: Server.decide, code did not go into \"if\" statement";
+			}//for
 		}catch(Exception e){
-			System.err.println(e.getMessage() + " (Server) " );
+			System.err.println("Server.decide " + e.getMessage());
 		}
-	}
-}
+		return "Error: Server.decide";
+	}//decide
+}//class

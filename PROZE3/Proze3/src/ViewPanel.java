@@ -4,7 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Daniel on 2017-03-27.
+ * @author Daniel 
+ * @version 2017-03-27.
  */
 public class ViewPanel extends JPanel implements ActionListener {
     JButton start_pause;
