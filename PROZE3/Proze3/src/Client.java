@@ -1,36 +1,71 @@
+/*
+ * 
+ */
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
+// TODO: Auto-generated Javadoc
+
 /**
- * 
+ * The Class Client.
+ *
  * @author PetrerW
  * @version 16.06.2017
+ * 
+ *  Client that will download parameters from server.
  */
 public class Client {
+	
+	/** The port number. */
 	private int portNumber;
+	
+	/** The Server IP. */
 	private String ServerIP;
+	
+	/** The index. */
 	private int index;
+	
+	/** The socket. */
 	private Socket socket;
+	
+	/** The server response matcher. */
 	ServerResponseMatcher serverResponseMatcher;
 	
+	/**
+	 * Instantiates a new client.
+	 */
 	//default constructor
 	Client(){
 		portNumber = 27272;
-		ServerIP = "192.168.0.101";
+		ServerIP = null; //"192.168.0.101";
 		setUpSocket();
 	}
 	
+	/**
+	 * Instantiates a new client.
+	 *
+	 * @param ServerIP the server IP
+	 */
 	//Constructor that sets serverIP parameter
 	Client(String ServerIP){
 		portNumber = 27272;
 		this.ServerIP = ServerIP;
-		setUpSocket();
+		try{
+			this.socket = new Socket(ServerIP, portNumber);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+
 	}
 	
+	/**
+	 * Sets the up socket.
+	 */
 	//Create a new Socket
 	private void setUpSocket(){
 		try{
@@ -42,29 +77,65 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Gets the index.
+	 *
+	 * @return the index
+	 */
 	public int getIndex(){
 		return this.index;
 	}
 	
+	/**
+	 * Sets the index.
+	 *
+	 * @param index the new index
+	 */
 	public void setIndex(int index){
 		this.index = index;
 	}
 	
+	/**
+	 * Gets the server IP.
+	 *
+	 * @return the server IP
+	 */
 	//get current Server's IP address
 	public String getServerIP(){
 		return ServerIP;
 	}
 	
+	/**
+	 * Sets the server IP.
+	 *
+	 * @param newIP the new server IP
+	 */
 	//Set a new Server's IP
 	public void setServerIP(String newIP){
 		this.ServerIP = newIP;
+		//try to create new socket with new IP
+		try{
+			this.socket = new Socket(newIP, portNumber);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 	}
 	
+	/**
+	 * Gets the port number.
+	 *
+	 * @return the port number
+	 */
 	//get current port number of the client
 	public int getportNumber(){
 		return portNumber;
 	}
 	
+	/**
+	 * Sets the port number.
+	 *
+	 * @param newNumber the new port number
+	 */
 	//Set a new port number for the client
 	public void setportNumber(int newNumber){
 		this. portNumber = newNumber;
@@ -72,6 +143,12 @@ public class Client {
 	
 	//TODO: function decide() for index_change command
 	
+	/**
+	 * Send message.
+	 *
+	 * @param Message the message
+	 * @return the string
+	 */
 	public String sendMessage(String Message) {
 		//Client client = new Client();
 		try{
@@ -112,6 +189,11 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Handle login.
+	 *
+	 * @param Message the message
+	 */
 	//handle login command
 	public void handleLogin(String Message){
 		//Template: "loggedin @ 34"
@@ -146,6 +228,11 @@ public class Client {
 		}
 	}
 	
+	/**
+	 * Handle logout.
+	 *
+	 * @param Message the message
+	 */
 	//handle loggedout response
 	public void handleLogout(String Message){
 		//Template: "loggedout"
@@ -159,12 +246,58 @@ public class Client {
 			if(matcher.matches()){
 				//handle command
 				this.index = -1;
+				JOptionPane.showMessageDialog(null,  "Succesfully logged out!", "Success", JOptionPane.INFORMATION_MESSAGE);
 			}
 			else
 				throw new Exception("Client.handleLogout: Wrong loggedout message");
 		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Error: Wrong Server response", "Error", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Client.handleLogout: " + e.getMessage());
 		}
 
+	}
+
+	/**
+	 * Handle get level.
+	 *
+	 * @param response the response
+	 */
+	public void handleGetLevel(String response) {
+		System.out.println("Client.handleGetLevel got response: " + response);
+		this.parseMap(response);
+	}
+	
+	/**
+	 * Parses the map.
+	 *
+	 * @param response the response
+	 * @return the array list
+	 */
+	public ArrayList<String> parseMap(String response){
+		//create a new ArrayList
+		ArrayList<String> Map = new ArrayList<String>();
+		
+		//length of "send_Level 1 BOARD [" is 19
+		String FirstPart = "send_Level 1 BOARD [";
+		
+		String BOARD = response.substring(FirstPart.length(), response.length()-1);
+		//System.out.println("Client.parseMap() clear BOARD: " + BOARD );
+		
+		//remove white spaces from board
+		BOARD = BOARD.replaceAll("\\s", "");
+		char color;
+		String Color;
+		
+		for(int i = 0; i<BOARD.length(); i++){
+			
+			//get the i-th string
+			color = BOARD.charAt(i);
+			Color = String.valueOf(color);
+			
+			//Add color as string to the color Map
+			if( Color != "" )
+				Map.add(""+color);
+		}
+		return Map;
 	}
 }

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,14 +8,27 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class FirstWindow.
+ *
  * @author Daniel
  * @version 2017-04-02.
  */
 public class FirstWindow extends JFrame implements ActionListener,ItemListener {
+    
+    /** The Anuluj. */
     JButton OK,Anuluj;
+    
+    /** The language choice. */
     Choice  languageChoice;
+    
+    /** The textt. */
     JLabel textt;
+    
+    /**
+     * Instantiates a new first window.
+     */
     public FirstWindow()
     {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +60,9 @@ public class FirstWindow extends JFrame implements ActionListener,ItemListener {
 
     }
 
+    /* (non-Javadoc)
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
@@ -59,6 +78,9 @@ public class FirstWindow extends JFrame implements ActionListener,ItemListener {
             dispose();
         }}
 
+    /* (non-Javadoc)
+     * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+     */
     public void itemStateChanged(ItemEvent ie)
 
     {

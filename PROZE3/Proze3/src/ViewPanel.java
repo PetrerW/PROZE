@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -5,22 +8,48 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+// TODO: Auto-generated Javadoc
 /**
  * Created by Daniel on 2017-03-27.
  */
 public class ViewPanel extends JPanel implements ActionListener, Runnable {
+   
+   /** The sounds. */
    private JButton start_pause,sounds;
+    
+    /** The stop animation kicker. */
     private Thread stopAnimationKicker;
+    
+    /** The space. */
     private GameSpace space;
+    
+    /** The point panel. */
     private CountPointPanel pointPanel;
+    
+    /** The game frame. */
     private GameWindow gameFrame;
+    
+    /** The score text. */
     private TextPanel level, scoreText;
+    
+    /** The start. */
     private boolean start=false;
+    
+    /** The sound on. */
     private boolean isRunning=false,soundOn=true;
+
+/** The effect on. */
 Image effectOn;
+
+/** The effect off. */
 Image effectOff;
+
+/** The icon off. */
 ImageIcon iconOn,iconOff;
 
+    /**
+     * Instantiates a new view panel.
+     */
     ViewPanel() {
 
 
@@ -90,10 +119,18 @@ ImageIcon iconOn,iconOff;
         g.fillRect(10,350,100,100);
     }*/
 
-    public GameSpace getGameSpace() {
+    /**
+    * Gets the game space.
+    *
+    * @return the game space
+    */
+   public GameSpace getGameSpace() {
         return this.space;
     }
 
+    /* (non-Javadoc)
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -134,14 +171,23 @@ ImageIcon iconOn,iconOff;
         }
         }
 
+    /**
+     * Start animation thread.
+     */
     void startAnimationThread() {
         (stopAnimationKicker = new Thread(this)).start();
     }
 
+    /**
+     * Stop animation thread.
+     */
     void stopAnimationThread() {
         stopAnimationKicker = null;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
     @Override
     public void run() {
 while(stopAnimationKicker==Thread.currentThread())
@@ -162,6 +208,10 @@ while(stopAnimationKicker==Thread.currentThread())
 }
 
     }
+    
+    /**
+     * Start.
+     */
     public synchronized void start() {
 
         isRunning = true;

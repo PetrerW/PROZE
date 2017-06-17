@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -7,16 +10,26 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class Bubble.
+ */
 /*
  * @author PetrerW
  * 	Class to handle Bubbles on game screen and their position in a list
  */
 public class Bubble{
+	
+	/** The img. */
 	//A representing picture
 	BufferedImage img;
+	
+	/** The position Y. */
 	//Its position in the list
 	 private double positionX,positionY;
 	//Color
+	/** The color. */
 	/*
 	 * y - yellow
 	 * b - blue
@@ -27,10 +40,17 @@ public class Bubble{
 	 * o - orange
 	 */
 private	String color;
+
+/** The color int. */
 private	int colorInt;
+	
+	/** The y. */
 	//Localization on game field
 	int x,y;
 
+	/**
+	 * Instantiates a new bubble.
+	 */
 	Bubble(){
 		img = new BufferedImage(1,1,1);
 		try {
@@ -44,6 +64,11 @@ private	int colorInt;
 		positionY=0;
 	}
 
+	/**
+	 * Instantiates a new bubble.
+	 *
+	 * @param color the color
+	 */
 	/*
 	 * Assigns a number to every color.
 	 * Makes organization of Color list easier.
@@ -64,6 +89,11 @@ private	int colorInt;
 		}
 	}
 
+	/**
+	 * Instantiates a new bubble.
+	 *
+	 * @param color the color
+	 */
 	Bubble(String color){
 		this.color = color;
 
@@ -79,6 +109,11 @@ private	int colorInt;
 		}
 	}
 
+	/**
+	 * Instantiates a new bubble.
+	 *
+	 * @param f the f
+	 */
 	/*
 	 * Bubble constructor that gets an already existing file as argument
 	 */
@@ -104,6 +139,12 @@ private	int colorInt;
 		}
 	}
 
+	/**
+	 * Instantiates a new bubble.
+	 *
+	 * @param f the f
+	 * @param sb the sb
+	 */
 	Bubble(File f, StringBuffer sb){
 		//StringBuffer sb = new StringBuffer();
 		sb.append(f.getName());
@@ -125,6 +166,11 @@ private	int colorInt;
 		}
 	}
 
+	/**
+	 * Instantiates a new bubble.
+	 *
+	 * @param img the img
+	 */
 	/*
 	 * Bubble constructor that gets an already existing image as argument
 	 */
@@ -132,6 +178,12 @@ private	int colorInt;
 		this.img = img;
 	}
 
+	/**
+	 * Determine color int.
+	 *
+	 * @param color the color
+	 * @return the int
+	 */
 	/*
 	 * determine color as integer when having a String
 	 * example. "Red" -> 4
@@ -159,6 +211,12 @@ private	int colorInt;
 		return colorInt;
 	}
 
+	/**
+	 * Determine color.
+	 *
+	 * @param colorIntt the color intt
+	 * @return the string
+	 */
 	/*
 	 * determine Color as String, having already an int
 	 * example: 4 -> "Red"
@@ -185,45 +243,106 @@ private	int colorInt;
 		}
 		return color;
 	}
+	
+	/**
+	 * Gets the x position.
+	 *
+	 * @return the x position
+	 */
 	public int getXPosition()
 	{
 		return (int)positionX;
 	}
+	
+	/**
+	 * Gets the y position.
+	 *
+	 * @return the y position
+	 */
 	public int getYPosition()
 	{
 		return (int)positionY;
 	}
+	
+	/**
+	 * Gets the double X position.
+	 *
+	 * @return the double X position
+	 */
 	public double getDoubleXPosition()
 	{
 		return positionX;
 	}
+	
+	/**
+	 * Gets the double Y position.
+	 *
+	 * @return the double Y position
+	 */
 	public double getDoubleYPosition()
 	{
 		return positionY;
 	}
+	
+	/**
+	 * Sets the position.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void setPosition(int x, int y)
 	{
 		this.positionX=(double)x;
 		this.positionY=(double)y;
 	}
 
+	/**
+	 * Sets the position.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void setPosition(double x, double y)
 	{
 		this.positionX=x;
 		this.positionY=y;
 	}
+	
+	/**
+	 * Gets the color int.
+	 *
+	 * @return the color int
+	 */
 	public int getColorInt()
 	{
 		return colorInt;
 	}
+	
+	/**
+	 * Gets the color string.
+	 *
+	 * @return the color string
+	 */
 	public String getColorString()
 	{
 		return color;
 	}
+	
+	/**
+	 * Sets the color int.
+	 *
+	 * @param color the new color int
+	 */
 	public void setColorInt(int color)
 	{
 		colorInt=color;
 	}
+	
+	/**
+	 * Sets the color string.
+	 *
+	 * @param color the new color string
+	 */
 	public void setColorString(String color)
 	{
 		this.color=color;

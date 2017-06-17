@@ -1,21 +1,46 @@
+/*
+ * 
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class NewGameWindow.
+ */
 /*
  * @author PetrerW
  * @version 15.04.2017
  */
 public class NewGameWindow extends JFrame implements ActionListener{
+    
+    /** The text field. */
     JTextField textField;
+    
+    /** The choose level. */
     JLabel pickUsernameLabel, chooseLevel;
+    
+    /** The ok. */
     JButton OK;
+    
+    /** The Cancel. */
     JButton Cancel;
+    
+    /** The level choice. */
     Choice levelChoice;
+    
+    /** The game window. */
     GameWindow gameWindow;
 
+    /**
+     * Instantiates a new new game window.
+     *
+     * @param gameWindow_ the game window
+     */
     public NewGameWindow(GameWindow gameWindow_){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int width = 500;
@@ -63,6 +88,9 @@ public class NewGameWindow extends JFrame implements ActionListener{
         gameWindow=gameWindow_;
     }
 
+    /* (non-Javadoc)
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

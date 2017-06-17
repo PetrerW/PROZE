@@ -16,20 +16,41 @@ import java.util.Arrays;
 import java.util.Properties;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GameWindow.
+ */
 public class GameWindow extends JFrame implements ActionListener {
 
+    /** The language window. */
     private JFrame languageWindow;
+    
+    /** The menubar. */
     private JMenuBar menubar;
+    
+    /** The help. */
     private JMenu file, help;
+    
+    /** The connect with server. */
     private JMenuItem newGame, ranking,  end, save, language, connectWithServer;
+    
+    /** The space. */
     private GameSpace space;
+    
+    /** The view panel. */
     ViewPanel view_panel;
+    
+    /** The sound on. */
     private boolean soundOn=true;
 
 
+    /**
+     * Instantiates a new game window.
+     */
     public GameWindow()
     {
         super("Bubble-Hit");
+        this.setLocationRelativeTo(null);
         setSize(600,600);
         setMinimumSize(new Dimension(600,600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,6 +94,14 @@ public class GameWindow extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Fill.
+     *
+     * @param value the value
+     * @param length the length
+     * @param with the with
+     * @return the string
+     */
     public  String fill(String value, int length, String with) {
 
         StringBuilder sb = new StringBuilder();
@@ -86,6 +115,9 @@ public class GameWindow extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Write file.
+     */
     public void WriteFile()
     {
         try(FileWriter fw = new FileWriter(Config.bestRankingPath, true);
@@ -100,6 +132,11 @@ public class GameWindow extends JFrame implements ActionListener {
     }
 
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
     public static void main(String[] args) {
 
         FirstWindow raz=new FirstWindow();
@@ -108,6 +145,9 @@ public class GameWindow extends JFrame implements ActionListener {
 
     }
 
+    /* (non-Javadoc)
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
@@ -176,15 +216,32 @@ public class GameWindow extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Gets the game space.
+     *
+     * @return the game space
+     */
     /*
      * Return this.space
      */
     public GameSpace getGameSpace(){
         return this.view_panel.getGameSpace();
     }
+    
+    /**
+     * Gets the view panel.
+     *
+     * @return the view panel
+     */
     public ViewPanel getViewPanel(){
         return this.view_panel;
     }
+    
+    /**
+     * Best ranking.
+     *
+     * @return the string[]
+     */
     public String[] bestRanking() {
 
 

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
@@ -10,17 +13,33 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServerConnectWindow.
+ */
 /*
  * @author PetrerW
  * @version 13.06.2017 
  */
 public class ServerConnectWindow extends JFrame implements ActionListener {
 
+	/** The Text field. */
 	JTextField TextField; //Type in there an IP address of the server
+	
+	/** The Type in address label. */
 	JLabel TypeInAddressLabel; //"Please type IP address of the server: "
+	
+	/** The Cancel. */
 	JButton OK, Cancel; //Obvious
+	
+	/** The gamewindow. */
 	GameWindow gamewindow; //Hold an object of the GameWindow
 	
+	/**
+	 * Instantiates a new server connect window.
+	 *
+	 * @param gamewindow_ the gamewindow
+	 */
 	ServerConnectWindow(GameWindow gamewindow_){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int width = 500;
@@ -62,6 +81,9 @@ public class ServerConnectWindow extends JFrame implements ActionListener {
         gamewindow = gamewindow_;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
@@ -82,10 +104,13 @@ public class ServerConnectWindow extends JFrame implements ActionListener {
 				}
 				else if(Result.isMatched() == true){
 					//create new client app window
-					ClientWindow clientWindow = new ClientWindow();
+					ClientWindow clientWindow = new ClientWindow(ip);
+					
+					//pass the IP of the server to the clientWindow
+					//clientWindow.setServerIP(ip);
 					
 					//pass the IP of the server to the client
-					clientWindow.setServerIP(ip);
+					//clientWindow.getClient().setServerIP(ip);
 					
 					//Show the client window
 					clientWindow.setVisible(true);

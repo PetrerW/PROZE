@@ -1,9 +1,16 @@
+/*
+ * 
+ */
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.swing.JOptionPane;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IpMatcher.
+ */
 /*
  * @author PetrerW
  * @version 15.06.2017
@@ -12,10 +19,19 @@ import javax.swing.JOptionPane;
  */
 public class IpMatcher {
 
+	/**
+	 * Instantiates a new ip matcher.
+	 */
 	IpMatcher(){
 		//empty
 	}
 	
+	/**
+	 * Checks if is valid IP.
+	 *
+	 * @param ip the ip
+	 * @return true, if is valid IP
+	 */
 	//Check if String correctly describes IP address
 	public static boolean isValidIP(String ip){
 		
@@ -25,6 +41,12 @@ public class IpMatcher {
 		return matcher.matches();
 	}
 	
+	/**
+	 * Validate IP.
+	 *
+	 * @param ip the ip
+	 * @return the return info
+	 */
 	/*
 	 * @param ip is a string that represents an IP address
 	 * @return true if IP address is correct, false otherwise

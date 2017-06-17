@@ -1,17 +1,33 @@
+/*
+ * 
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 
+// TODO: Auto-generated Javadoc
 /**
  * Created by Daniel on 2017-04-02.
  */
 public class CountPointPanel extends JPanel {
+    
+    /** The points. */
     private int points;
+    
+    /** The Constant numberCount. */
     private static final int numberCount = 6;
+    
+    /** The format. */
     private DecimalFormat format;
 
+    /** The size. */
     private int size;
 
+    /**
+     * Instantiates a new count point panel.
+     *
+     * @param size the size
+     */
     public CountPointPanel( int size) {
 
         this.size = size;
@@ -20,6 +36,9 @@ public class CountPointPanel extends JPanel {
         this.format.setMinimumIntegerDigits(numberCount);
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.setDoubleBuffered(true);
@@ -34,6 +53,11 @@ public class CountPointPanel extends JPanel {
         g.drawString(string, w / 2 - fw / 2, h / 2 + fh / 2);
     }
 
+    /**
+     * Sets the score.
+     *
+     * @param score the new score
+     */
     public void setScore(int score) {
         points = score;
         repaint();

@@ -1,17 +1,29 @@
+/*
+ * 
+ */
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ClientRequestMatcher.
+ *
  * @author PetrerW
  * @version 15.06.2017
  * 
- * A class with patterns to match Client's request 
+ * A class with patterns to match Client's request
  */
 public class ClientRequestMatcher {
+	
+	/** The patterns. */
 	public static ArrayList<Pattern> patterns;
 	
+	/** The I ppattern. */
 	public static String IPpattern = "(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)[.]){3}(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)";
 	
+	/**
+	 * Instantiates a new client request matcher.
+	 */
 	ClientRequestMatcher(){
 		//empty
 	}
@@ -19,7 +31,7 @@ public class ClientRequestMatcher {
 	//in static initialization 
 	static{
 		//create new ArrayList
-		patterns = new ArrayList<>();
+		patterns = new ArrayList<Pattern>();
 		
 		/**
 		 * LOGIN

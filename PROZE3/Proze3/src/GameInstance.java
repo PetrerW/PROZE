@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,24 +12,49 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Properties;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GameInstance.
+ */
 public class GameInstance {
+	
+	/** The username. */
 	private String username;
+	
+	/** The score. */
 	private int score;
+	
+	/** The level. */
 	private Level level;
+	
+	/** The image list. */
 	private ArrayList<BufferedImage> imageList;
+	
+	/** The image explosion list. */
 	private ArrayList<BufferedImage> imageExplosionList;
 
+	/**
+	 * Instantiates a new game instance.
+	 */
 	GameInstance() {
 		readImagefromFile();
 		readImageExplosionfromFile();
 		setLevel(new Level());
 	}
 
+	/**
+	 * Instantiates a new game instance.
+	 *
+	 * @param maxColor the max color
+	 */
 	GameInstance(int maxColor) {
 		setLevel(new Level(maxColor));
 	}
 
 
+	/**
+	 * Read imagefrom file.
+	 */
 	public void readImagefromFile() {
 		String color;
 		int position;
@@ -56,6 +84,9 @@ public class GameInstance {
 
 	}
 
+	/**
+	 * Read image explosionfrom file.
+	 */
 	/*
 	 * A functions that read Image Explosion pictures from files
 	 */
@@ -88,6 +119,11 @@ public class GameInstance {
 
 	}
 
+	/**
+	 * Write to file.
+	 *
+	 * @param BubbleList the bubble list
+	 */
 	//TODO Add mkdir of Config and Graphics!!!!!
 	public void writeToFile(ArrayList<Bubble> BubbleList) {
 		if (BubbleList != null) {
@@ -107,6 +143,11 @@ public class GameInstance {
 		}
 	}
 
+	/**
+	 * Write to file string.
+	 *
+	 * @param ColorList the color list
+	 */
 	public void writeToFileString(ArrayList<String> ColorList) {
 		//If the directory doesn't exist...
 		if (!new File("/Graphics").exists())
@@ -133,9 +174,15 @@ public class GameInstance {
 	}
 
 
+	/**
+	 * Read from file.
+	 *
+	 * @param f the f
+	 * @return the array list
+	 */
 	//TODO Add reading from directory. Actually works if config files are in the project directory
 	public ArrayList<Bubble> readFromFile(String f) {
-		ArrayList<Bubble> BubbleList = new ArrayList<>();
+		ArrayList<Bubble> BubbleList = new ArrayList<Bubble>();
 		//clear BubbleList to append new data
 		if (BubbleList != null)
 			BubbleList.removeAll(BubbleList);
@@ -172,14 +219,29 @@ public class GameInstance {
 		return BubbleList;
 	}
 
+	/**
+	 * Gets the level.
+	 *
+	 * @return the level
+	 */
 	public Level getLevel() {
 		return level;
 	}
 
+	/**
+	 * Sets the level.
+	 *
+	 * @param level the new level
+	 */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
 
+	/**
+	 * Sets the username.
+	 *
+	 * @param username the new username
+	 */
 	/*
 	 * Change username of the GameInstance
 	 */
@@ -187,14 +249,29 @@ public class GameInstance {
 		this.username = username;
 	}
 
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
 	public String getUsername() {
 		return this.username;
 	}
 
+	/**
+	 * Gets the image list.
+	 *
+	 * @return the image list
+	 */
 	public ArrayList<BufferedImage> getImageList() {
 		return this.imageList;
 	}
 
+	/**
+	 * Gets the image explosion list.
+	 *
+	 * @return the image explosion list
+	 */
 	/*
          *Passing a  ArrayList with explosion image
          * @return instantion ArrayList<BufferedImage>
@@ -204,6 +281,12 @@ public class GameInstance {
 	}
 
 
+	/**
+	 * Write best ranking.
+	 *
+	 * @param nick the nick
+	 * @param points the points
+	 */
 	public void writeBestRanking(ArrayList<String> nick, ArrayList<String> points) {
 
 
@@ -236,6 +319,12 @@ public class GameInstance {
 
 
 	}
+	
+	/**
+	 * Best ranking.
+	 *
+	 * @return the string[]
+	 */
 	public String[] bestRanking() {
 
 

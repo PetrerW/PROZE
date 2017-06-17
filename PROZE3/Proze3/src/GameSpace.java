@@ -12,34 +12,81 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GameSpace.
+ */
 public class GameSpace extends JPanel implements Runnable, MouseListener, MouseMotionListener {
 
 
 
-	private ArrayList<Bubble> BubbleList = new ArrayList<>();
+	/** The Bubble list. */
+	private ArrayList<Bubble> BubbleList = new ArrayList<Bubble>();
+	
+	/** The Missle. */
 	private Bubble Missle;
+	
+	/** The Next missle. */
 	private Bubble NextMissle;
+	
+	/** The Shoot arrow. */
 	private Arrow ShootArrow;
+	
+	/** The Game. */
 	private GameInstance Game;
+	
+	/** The count shoot at level. */
 	private int maxColor=5,counter=0,demagedBubbles=0,point=0,countShootAtLevel=0;
+	
+	/** The sound on. */
 	private boolean isRunning = false, changePosition = false, blockedClicked = false, pause=false,multiBubble=false,soundOn=true;
+	
+	/** The game over. */
 	private boolean moveOnLeft=false, moveOnRight=false, firstRowBubbleOnLeft=true,gameOver=true;
+	
+	/** The animation kicker. */
 	private Thread animationKicker;
+	
+	/** The y. */
 	private double locationX, locationY,movedMouseLocationX,movedMouseLocationY, speedx = 0, speedy = 0, x = 0, y = 0;
+	
+	/** The capacity. */
 	private int sidex, sidey, capacity = 15;
+	
+	/** The deltay. */
 	private int diameterx, diametery, deltax = 0, deltay = 0;
+	
+	/** The Add bubble hard. */
 	int PointsBoardMedium, PointsBoardHard, ShootBoardMedium,ShootBoardHard,AddBubbleEasy,AddBubbleMedium,AddBubbleHard;
+	
+	/** The real deltay. */
 	private double realDeltax = 0, realDeltay = 0;
+	
+	/** The count point panel. */
 	private CountPointPanel countPointPanel;
+	
+	/** The level. */
 	private TextPanel level;
+	
+	/** The last width. */
 	private double lastHeight, lastWidth;
+	
+	/** The scale value Y. */
 	private double scaleValueX=1,scaleValueY=1;
+	
+	/** The panel height. */
 	private double panelWidth,panelHeight;
 
 
 
 
 
+	/**
+	 * Instantiates a new game space.
+	 *
+	 * @param pointPanel the point panel
+	 * @param level the level
+	 */
 	GameSpace(CountPointPanel pointPanel,TextPanel level) {
 		setMinimumSize(new Dimension(600, 600));
 		setDiameter();
@@ -64,6 +111,11 @@ System.out.println(PointsBoardMedium);
 
 	}
 
+	/**
+	 * Inctiation game.
+	 *
+	 * @param gameInstance the game instance
+	 */
 	public void inctiationGame(GameInstance gameInstance) {
 
 
@@ -96,6 +148,9 @@ System.out.println(PointsBoardMedium);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#getPreferredSize()
+	 */
 	public Dimension getPreferredSize() {
 
 		return new Dimension(600, 600);
@@ -104,7 +159,10 @@ System.out.println(PointsBoardMedium);
 
 
 
-	/*
+	/**
+	 * Creates the random bubble list.
+	 *
+	*
      * Adding Bubbles to the game field at random.
      * Useful with creating a new game
      * Already saves a beginning bubble color configuration to the file
@@ -131,6 +189,9 @@ System.out.println(PointsBoardMedium);
 		}
 	}
 
+	/**
+	 * Creates the bubble list.
+	 */
 	public void createBubbleList() {
       	/*
   		 * Adding Bubbles to game field
@@ -148,6 +209,9 @@ else {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	public void paint(Graphics g) {
 
 
@@ -210,6 +274,11 @@ else {
 		}
 		}
 
+	/**
+	 * Sets the game instance.
+	 *
+	 * @param Game the new game instance
+	 */
 	/*
      * Set game instance
      */
@@ -217,6 +286,9 @@ else {
 		this.Game = Game;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (!blockedClicked) {
@@ -243,31 +315,49 @@ else {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent event) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+	 */
 	public void mouseDragged(MouseEvent event) {
 
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
 	public void mouseMoved(MouseEvent event) {
 		if (event.getX() < getWidth() && event.getY() > 0) {
 			movedMouseLocationX = event.getX();
@@ -278,14 +368,24 @@ else {
 			movedMouseLocationY = getHeight()*0.92;
 		}
 	}
+	
+	/**
+	 * Start animation thread.
+	 */
 	void startAnimationThread() {
 		(animationKicker = new Thread(this)).start();
 	}
 
+	/**
+	 * Stop animation thread.
+	 */
 	void stopAnimationThread() {
 		animationKicker = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 
@@ -309,6 +409,9 @@ e.printStackTrace();
 
 	}
 
+	/**
+	 * Start.
+	 */
 	public synchronized void start() {
 
 		startAnimationThread();
@@ -317,6 +420,11 @@ e.printStackTrace();
 
 	}
 
+	/**
+	 * Drawing animation.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
 	public synchronized void drawingAnimation() throws InterruptedException {
 		while(pause) {
 			wait();
@@ -338,6 +446,11 @@ e.printStackTrace();
 		notify(); // notifyAll() for multiple gameSpace/vievPanel threads
 	}
 
+	/**
+	 * Stop animation.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
 	public synchronized void stopAnimation() throws InterruptedException {
 	//System.out.println("ooo");
 			while(!pause) {
@@ -349,6 +462,9 @@ e.printStackTrace();
 	}
 
 
+	/**
+	 * Sets the diameter.
+	 */
 	private void setDiameter() {
 		sidex = (int) getWidth();
 		sidey = (int) (getHeight() * 0.8);
@@ -357,6 +473,9 @@ e.printStackTrace();
 
 	}
 
+	/**
+	 * Scaling location parameters.
+	 */
 	public void scalingLocationParameters()
 	{
 
@@ -373,6 +492,10 @@ e.printStackTrace();
 
 
 	}
+
+/**
+ * Scaling missle position.
+ */
 public void scalingMisslePosition()
 {
 
@@ -381,6 +504,9 @@ public void scalingMisslePosition()
 }
 
 
+	/**
+	 * Move bubble.
+	 */
 	public void moveBubble() {
 		double tmp;
 		speedx*=scaleValueX;
@@ -420,6 +546,9 @@ public void scalingMisslePosition()
 
 
 
+	/**
+	 * Delta speed.
+	 */
 	public void deltaSpeed() {
 		double tmpy, tmpx, tmpDelta;
 		int speed = 4;
@@ -446,6 +575,9 @@ public void scalingMisslePosition()
 
 	}
 
+	/**
+	 * Sets the initiation.
+	 */
 	public void setInitiation() {
 		speedx = 0;
 		speedy = 0;
@@ -457,6 +589,9 @@ public void scalingMisslePosition()
 
 	}
 
+	/**
+	 * Initiation missle.
+	 */
 	public void initiationMissle() {
 		Missle.setPosition(getWidth() / 2 - diameterx / 2, (int) (getHeight() * 0.92));
 
@@ -464,6 +599,9 @@ public void scalingMisslePosition()
 
 	}
 
+	/**
+	 * Sets the next missle.
+	 */
 	public void setNextMissle() {
 int positionInList;
 
@@ -503,6 +641,9 @@ if(multiBubble)
 }
 	}
 
+	/**
+	 * Sets the position bubble.
+	 */
 	public void setPositionBubble() {
 		double x;
 if(firstRowBubbleOnLeft) {
@@ -540,6 +681,9 @@ if(firstRowBubbleOnLeft) {
 		}
 	}
 
+	/**
+	 * My function.
+	 */
 	public void myFunction()
 	{
 System.out.println(counter);
@@ -572,6 +716,9 @@ else
 	// = new Bubble(Game.getLevel().colorData.colorFiles.get(Game.getLevel().colorChooser.nextInt(maxColor)));
 	}
 
+	/**
+	 * Check colision.
+	 */
 	public void checkColision() {
 		for (int i = 0; i < BubbleList.size(); i++) {
 			if(BubbleList.get(i)!=null)
@@ -626,6 +773,12 @@ else
 		}
 	}
 
+	/**
+	 * Gets the neighbors indexes.
+	 *
+	 * @param B the b
+	 * @return the neighbors indexes
+	 */
 	/*
 	 * get indexes of Bubbles that are neighbors of a particular Bubble
 	 * @param Bubble object, whose neighbours we're looking for
@@ -738,13 +891,19 @@ if(firstRowBubbleOnLeft) {
 		return IndexList;
 
 	}
+	
+	/**
+	 * Extinguish bubble.
+	 *
+	 * @param indexes the indexes
+	 */
 	/*
 	 * @param int table with indexes of Bubbles to extinguish
 	 */
 	public void extinguishBubble(ArrayList<Integer> indexes){
 		boolean run=true;
 		int size;
-				ArrayList<Integer> tmp=new ArrayList<>();
+				ArrayList<Integer> tmp=new ArrayList<Integer>();
 		if(!multiBubble) {
 			for (int k = (indexes.size() - 1); k >= 0; k--) {
 				if (Missle.getColorInt() != BubbleList.get(indexes.get(k)).getColorInt()) {
@@ -856,6 +1015,9 @@ if(firstRowBubbleOnLeft) {
 
 			}
 
+			/**
+			 * Count and set point.
+			 */
 			public void countAndSetPoint()
 			{
 				if(demagedBubbles>2)
@@ -875,6 +1037,11 @@ if(firstRowBubbleOnLeft) {
 				demagedBubbles=0;
 			}
 
+	/**
+	 * Gets the game.
+	 *
+	 * @return the game
+	 */
 	/*
 	 * get GameInstance
 	 */
@@ -883,6 +1050,11 @@ if(firstRowBubbleOnLeft) {
 		return Game;
 	}
 
+	/**
+	 * Sets the pause.
+	 *
+	 * @param value the new pause
+	 */
 	/*
 	* set value variable pause
 	* @param value is true or false parameter
@@ -892,6 +1064,9 @@ if(firstRowBubbleOnLeft) {
 		pause=value;
 	}
 
+	/**
+	 * Check game over.
+	 */
 	/*
 	*Check if the game is over
 	 */
@@ -916,14 +1091,18 @@ if(firstRowBubbleOnLeft) {
 
 		}
 	}
+	
+	/**
+	 * Update best ranking.
+	 */
 	/*
 	*Updates the best player results
 	 */
 	public void updateBestRanking()
 	{
 		String[] scores = Config.bestRanking();
-		ArrayList<String> nick=new ArrayList<>();//List containing nicks player with best records list
-		ArrayList<String> points=new ArrayList<>();//List containing points player with best records list
+		ArrayList<String> nick=new ArrayList<String>();//List containing nicks player with best records list
+		ArrayList<String> points=new ArrayList<String>();//List containing points player with best records list
 		if (scores == null) {
               /*  JOptionPane.showMessageDialog(null, Config.language[23]
                                 + "!", Config.language[9],
@@ -965,6 +1144,10 @@ if(firstRowBubbleOnLeft) {
 
 		}
 	}
+	
+	/**
+	 * Level control.
+	 */
 	public void levelControl()
 	{
 		if(Game.getLevel().getHowHard()=="Easy" && point>PointsBoardMedium)
@@ -1017,6 +1200,10 @@ if(firstRowBubbleOnLeft) {
 			level.setText(Config.packLanguage[16]+" \n"+Game.getLevel().getHowHard());
 		}
 	}
+
+/**
+ * Level board.
+ */
 /*
 *Function read parameters with configuration file
  */
@@ -1056,15 +1243,31 @@ if(firstRowBubbleOnLeft) {
 
 	}
 
+	/**
+	 * Checks if is game over.
+	 *
+	 * @return true, if is game over
+	 */
 	public boolean isGameOver()
 	{
 		return gameOver;
 	}
+	
+	/**
+	 * Sets the sound on.
+	 *
+	 * @param value the new sound on
+	 */
 	public void setSoundOn(boolean value)
 	{
 	this.soundOn=value;
 	}
 
+	/**
+	 * Play sound.
+	 *
+	 * @param url the url
+	 */
 	public  synchronized void playSound(final String url) {
 		if(soundOn)
 		{
