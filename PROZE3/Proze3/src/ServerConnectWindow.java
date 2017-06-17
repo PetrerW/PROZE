@@ -81,6 +81,16 @@ public class ServerConnectWindow extends JFrame implements ActionListener {
 					throw new Exception(Result.getMessage());
 				}
 				else if(Result.isMatched() == true){
+					//create new client app window
+					ClientWindow clientWindow = new ClientWindow();
+					
+					//pass the IP of the server to the client
+					clientWindow.setServerIP(ip);
+					
+					//Show the client window
+					clientWindow.setVisible(true);
+					
+					//dispose this window
 					this.dispose();
 				}
 				

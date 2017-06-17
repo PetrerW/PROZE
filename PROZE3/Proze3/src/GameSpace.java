@@ -742,139 +742,138 @@ if(firstRowBubbleOnLeft) {
 	 * @param int table with indexes of Bubbles to extinguish
 	 */
 	public void extinguishBubble(ArrayList<Integer> indexes){
-boolean run=true;
-int size;
-		ArrayList<Integer> tmp=new ArrayList<>();
-if(!multiBubble) {
-	for (int k = (indexes.size() - 1); k >= 0; k--) {
-		if (Missle.getColorInt() != BubbleList.get(indexes.get(k)).getColorInt()) {
-			indexes.remove(k);
-		}
-	}
-}
-		while(run) {
-			size=indexes.size();
+		boolean run=true;
+		int size;
+				ArrayList<Integer> tmp=new ArrayList<>();
+		if(!multiBubble) {
 			for (int k = (indexes.size() - 1); k >= 0; k--) {
-				tmp = getNeighborsIndexes(BubbleList.get(indexes.get(k)));
-				for(int i=(tmp.size()-1);i>=0;i--) {
-					if (BubbleList.get(indexes.get(k)).getColorInt() != BubbleList.get(tmp.get(i)).getColorInt()) {
-						tmp.remove(i);
-					}else if(indexes.get(k).byteValue()==tmp.get(i).byteValue())
-					{
-						tmp.remove(i);
-					}
+				if (Missle.getColorInt() != BubbleList.get(indexes.get(k)).getColorInt()) {
+					indexes.remove(k);
 				}
+			}
+		}
+				while(run) {
+					size=indexes.size();
+					for (int k = (indexes.size() - 1); k >= 0; k--) {
+						tmp = getNeighborsIndexes(BubbleList.get(indexes.get(k)));
+						for(int i=(tmp.size()-1);i>=0;i--) {
+							if (BubbleList.get(indexes.get(k)).getColorInt() != BubbleList.get(tmp.get(i)).getColorInt()) {
+								tmp.remove(i);
+							}else if(indexes.get(k).byteValue()==tmp.get(i).byteValue())
+							{
+								tmp.remove(i);
+							}
+						}
 
-				for (int j = (indexes.size() - 1); j >= 0; j--)
-				{
-				for(int i=(tmp.size()-1);i>=0;i--) {
-					if(indexes.get(j).byteValue()==tmp.get(i).byteValue() && i==0) {
+						for (int j = (indexes.size() - 1); j >= 0; j--)
+						{
+						for(int i=(tmp.size()-1);i>=0;i--) {
+							if(indexes.get(j).byteValue()==tmp.get(i).byteValue() && i==0) {
+								tmp.clear();
+							}
+							else if (indexes.get(j).byteValue()==tmp.get(i).byteValue())
+							{
+								tmp.remove(i);
+
+							}
+						}}
+						for(int i=0; i<tmp.size();i++)
+						{
+							System.out.println(tmp.get(i));
+						}
+
+						if(!tmp.isEmpty())
+						{
+							indexes.addAll(tmp);
+
+						}
 						tmp.clear();
+
 					}
-					else if (indexes.get(j).byteValue()==tmp.get(i).byteValue())
+					if(indexes.size()==size)
 					{
-						tmp.remove(i);
-
+						run=false;
 					}
-				}}
-				for(int i=0; i<tmp.size();i++)
+		System.out.println("linia");
+				}
+
+
+
+				if(indexes.size()<3) {
+				indexes.clear();
+				}
+				if(indexes.size()>6)
 				{
-					System.out.println(tmp.get(i));
+					multiBubble=true;
 				}
-
-				if(!tmp.isEmpty())
+				else
 				{
-					indexes.addAll(tmp);
-
+					multiBubble=false;
 				}
-				tmp.clear();
 
-			}
-			if(indexes.size()==size)
-			{
-				run=false;
-			}
-System.out.println("linia");
-		}
-
-
-
-		if(indexes.size()<3) {
-		indexes.clear();
-		}
-		if(indexes.size()>6)
-		{
-			multiBubble=true;
-		}
-		else
-		{
-			multiBubble=false;
-		}
-
-		for(int i: indexes)
-		{
-playSound("");
-		//sounds.playSound();
-			//TODO: Check if Bubbles have correctly assigned colors
-			int colorIndex = 5;//ColorData.colorArray.indexOf(BubbleList.get(i).color); //find what index has Bubble color
-			try{
-				if(BubbleList.size()>i) {
-					BubbleList.get(i).img = Game.getImageExplosionList().get(colorIndex); //append explosion image
-					demagedBubbles++;
-				}
-			}
-			catch(Exception e)
-			{
-				System.err.println("extinguishBubble");
-			}
-		}
-		repaint();
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException ex) {
-			Thread.currentThread().interrupt();
-		}
-		for(int i:indexes)
-		{
-			System.out.println(BubbleList.size());
-			System.out.println(i);
-			if(BubbleList.size()>(i)) {
-				BubbleList.set((i ), null);
-			}
-			if(BubbleList.size()==i+1)
-			{
-
-				while(BubbleList.get(i)==null)
+				for(int i: indexes)
 				{
-					BubbleList.remove(i);
-					i--;
+		playSound("");
+				//sounds.playSound();
+
+					try{
+						if(BubbleList.size()>i) {
+							BubbleList.get(i).img = Game.getImageExplosionList().get(BubbleList.get(i).getColorInt()-1); //append explosion image
+							demagedBubbles++;
+						}
+					}
+					catch(Exception e)
+					{
+						System.err.println("extinguishBubble");
+					}
 				}
+				repaint();
+				try {
+					Thread.sleep(30);
+				} catch (InterruptedException ex) {
+					Thread.currentThread().interrupt();
+				}
+				for(int i:indexes)
+				{
+					System.out.println(BubbleList.size());
+					System.out.println(i);
+					if(BubbleList.size()>(i)) {
+						BubbleList.set((i ), null);
+					}
+					if(BubbleList.size()==i+1)
+					{
+
+						while(BubbleList.get(i)==null)
+						{
+							BubbleList.remove(i);
+							i--;
+						}
+					}
+					//System.out.println(i);
+				}
+				countAndSetPoint();
+
+
 			}
-			//System.out.println(i);
-		}
-		countAndSetPoint();
 
-
-	}
-
-	public void countAndSetPoint()
-	{
-		if(demagedBubbles>2)
-		if(demagedBubbles==3)
-		{
-			point+=10;
-		}
-		else if(demagedBubbles==4)
-		{
-			point+=16;
-		}
-		else
-		{
-			point+=Math.pow(2,demagedBubbles);
-		}
-		countPointPanel.setScore(point);
-		demagedBubbles=0;
-	}
+			public void countAndSetPoint()
+			{
+				if(demagedBubbles>2)
+				if(demagedBubbles==3)
+				{
+					point+=10;
+				}
+				else if(demagedBubbles==4)
+				{
+					point+=16;
+				}
+				else
+				{
+					point+=Math.pow(2,demagedBubbles);
+				}
+				countPointPanel.setScore(point);
+				demagedBubbles=0;
+			}
 
 	/*
 	 * get GameInstance

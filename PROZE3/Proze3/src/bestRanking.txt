@@ -1,22 +1,22 @@
 #Ustawienia
-#Fri Jun 16 17:59:19 CEST 2017
-Point\ 7=66
-Point\ 6=74
-Point\ 5=288
-Point\ 4=312
-Point\ 3=316
-Point\ 2=348
+#Fri Jun 16 19:52:13 CEST 2017
+Point\ 7=74
+Point\ 6=288
+Point\ 5=312
+Point\ 4=316
+Point\ 3=348
+Point\ 2=736
 Point\ 1=752
-Nick\ 10=karol
-Point\ 10=10
-Nick\ 9=daniiel
-Nick\ 8=fd
-Nick\ 7=tete
-Nick\ 6=farka
-Nick\ 5=piotr
-Nick\ 4=gg
+Nick\ 10=daniiel
+Point\ 10=32
+Nick\ 9=fd
+Nick\ 8=tete
+Nick\ 7=farka
+Nick\ 6=piotr
+Nick\ 5=gg
+Nick\ 4=tete
 Nick\ 3=tete
-Nick\ 2=tete
-Point\ 9=32
+Nick\ 2=Daniel
 Nick\ 1=tete
-Point\ 8=36
+Point\ 9=36
+Point\ 8=66
