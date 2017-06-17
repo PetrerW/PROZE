@@ -49,21 +49,20 @@ public class Server {
 			String line;
 			
 			//if((line = serverScanner.nextLine()) == "PROZE_PROTOCOL"){
-				//Generate server's response
-				Message = this.decide(serverScanner);
+			//Generate server's response
+			Message = this.decide(serverScanner);
 				
-				//Create a PrintStream to write to Client
-				PrintStream serverPS = new PrintStream(SS.getOutputStream());
-				
-				//Send message to the client
-				serverPS.println(Message);
-				
-				//probe
-				System.out.println(Message);
-			//}
+			//Create a PrintStream to write to Client
+			PrintStream serverPS = new PrintStream(SS.getOutputStream());
 			
+			//Send message to the client
+			serverPS.println(Message);
+				
+			//probe
+			System.out.println(Message);
+			//}
 		}catch(Exception e){
-			System.err.println(e.getMessage() + " (Server) " );
+			System.err.println(e.getMessage() + " (Server.start()) " );
 		}
 	}
 	
@@ -177,7 +176,27 @@ public class Server {
 	}
 	
 	private String handleLogout(String line){
-		return null;
+		//Template: "logout @ <Client's Index>"
+		//Example: "logout @ 34"
+		try{
+			
+		//9 is length of "logout @ "
+		String Index = line.substring(9);
+	
+		int index = Integer.parseInt(Index);
+		
+		//remove appropriate IP address from the list
+		this.ClientsIP.remove(index);
+		
+		//tell all the clients from the list above index that their index changed
+		this.announceIndexChange(index);
+		
+		//return response to the server
+		return "loggedout";
+		}catch(Exception e){
+			System.out.println("Server.handleLogout: " + e.getMessage());
+		}
+		return "Server error: handleLogout";
 	}
 	
 	
@@ -204,7 +223,7 @@ public class Server {
 					case 0:
 						//handle LOGIN
 						String Message = this.handleLogin(line);
-						System.out.println(Message);
+						System.out.println("Server.decide, case " + i + ": " + Message);
 						return Message;
 					case 1:
 						//handle get_Level
@@ -215,6 +234,9 @@ public class Server {
 						//handle set_player_result
 					case 4:
 						//handle logout
+						String Message4 = this.handleLogout(line);
+						System.out.println("Server.decide, case " + i + ": " + Message4);
+						return Message4;
 					default:
 						//send error notification (wrong input data)
 							
@@ -228,4 +250,32 @@ public class Server {
 		}
 		return "Error: Server.decide";
 	}//decide
+	
+	//announce that a client has left server and indexes in the list changed
+	public void announceIndexChange(int index){
+
+		String ip;
+		if(ClientsIP.size() != 0){
+		for(int i = index; i<ClientsIP.size(); i++){
+			//Get IP address
+			ip = ClientsIP.get(i);
+			try{		
+				//Create a socket to connect with client
+				Socket socket = new Socket(ip, this.portNumber);
+				
+				//Get socket's output stream
+				PrintStream ps = new PrintStream(socket.getOutputStream());
+				
+				//write line to the client
+				ps.println("index_change @ " + i);
+				
+				//close the socket
+				socket.close();
+			}catch(Exception e){
+				System.out.println("Failure to send message to client with IP: " + ip );
+			}
+
+		}//for
+		}//if
+	}//announceIndexChange
 }//class
