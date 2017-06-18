@@ -73,7 +73,7 @@ public class ClientWindow extends JFrame implements ActionListener {
 	 */
 	//default constructor
 	ClientWindow(){
-		client = new Client();
+		//client = new Client();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int width = 500;
@@ -137,7 +137,8 @@ public class ClientWindow extends JFrame implements ActionListener {
 	ClientWindow(String IP){
 		this();
 		this.serverIP = IP;
-		client.setServerIP(IP);
+		client = new Client(IP);
+		//client.setServerIP(IP);
 	}
 	
 	/* (non-Javadoc)

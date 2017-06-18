@@ -1,22 +1,22 @@
 #Ustawienia
-#Fri Jun 16 19:52:13 CEST 2017
-Point\ 7=74
-Point\ 6=288
-Point\ 5=312
-Point\ 4=316
-Point\ 3=348
-Point\ 2=736
-Point\ 1=752
-Nick\ 10=daniiel
-Point\ 10=32
-Nick\ 9=fd
-Nick\ 8=tete
-Nick\ 7=farka
-Nick\ 6=piotr
-Nick\ 5=gg
-Nick\ 4=tete
+#Sun Jun 18 12:34:53 CEST 2017
+Point\ 7=312
+Point\ 6=316
+Point\ 5=348
+Point\ 4=736
+Point\ 3=752
+Point\ 2=984
+Point\ 1=1344
+Nick\ 10=tete
+Point\ 10=66
+Nick\ 9=farka
+Nick\ 8=piotr
+Nick\ 7=gg
+Nick\ 6=tete
+Nick\ 5=tete
+Nick\ 4=Daniel
 Nick\ 3=tete
-Nick\ 2=Daniel
-Nick\ 1=tete
-Point\ 9=36
-Point\ 8=66
+Nick\ 2=mmm
+Nick\ 1=MartaJestNajlepsza
+Point\ 9=74
+Point\ 8=288
